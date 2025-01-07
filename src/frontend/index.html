@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html lang="sv">
+    <head>
+        <meta charset="UTF-8">
+        <title>SkyExplorer</title>
+        <link rel="stylesheet" href="/src/frontend/style.css">
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1>SkyExplorer</h1>
+            </header>
+            <main>
+                <div class="search-container">
+                    <form action="#" method="get">
+                        <input type="text" name="from" placeholder="Search for flights from..." class="search-input">
+                        <button type="submit" class="search-button">Search From</button>
+                    </form>
+                </div>
+                <div class="search-container">
+                    <form action="#" method="get">
+                        <input type="text" name="to" placeholder="Search for flights to..." class="search-input">
+                        <button type="submit" class="search-button">Search To</button>
+                    </form>
+                </div>
+                <div class="search-container">
+                    <form action="#" method="get">
+                        <input type="date" name="flight-date" class="date-picker">
+                        <button type="submit" class="search-button">Choose Date</button>
+                    </form>
+                </div>
+            </main>
+            <footer>
+                <table>
+                    <tr>
+                        <th>About us</th>
+                        <th>General conditions</th>
+                        <th>Something else</th>
+                    </tr>
+                    <tr>
+                        <td>We are cool</td>
+                        <td>Everything is fine</td>
+                        <td>Else</td>
+                    </tr>
+                </table>
+            </footer>
+        </div>
+    </body>
 </html>
