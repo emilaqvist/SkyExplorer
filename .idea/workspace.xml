@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
-      <change afterPath="$PROJECT_DIR$/src/controller/FlightController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/PlaceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/WeatherController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Flight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Place.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/Weather.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/FlightService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/PlaceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/WeatherService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SkyExplorer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SkyExplorer.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,9 +25,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2r7CTMHtksTnwRU54HGnzjZNw3X" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -44,7 +38,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Emil",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -77,6 +71,7 @@
       <option name="presentableId" value="Default" />
       <updated>1735900736375</updated>
       <workItem from="1735900737422" duration="610000" />
+      <workItem from="1740317507227" duration="828000" />
     </task>
     <task id="LOCAL−00001" summary="nytt">
       <option name="closed" value="true" />
