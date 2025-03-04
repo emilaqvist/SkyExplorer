@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // Parse URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     let departure = urlParams.get("departure");
     let destination = urlParams.get("destination");
@@ -11,10 +10,8 @@ $(document).ready(function () {
         return;
     }
 
-    // Display the destination in the title
     $('#destination-title').text(`Flights to ${destination}`);
 
-    // Load Flights Data from JSON
     $.getJSON("/src/frontend/flights.json", function (flightsData) {
         let filteredFlights = flightsData.filter(flight =>
             flight.departure.toLowerCase().includes(departure.toLowerCase()) &&
@@ -26,14 +23,11 @@ $(document).ready(function () {
         displayFlights(filteredFlights);
     });
 
-    // Fetch Weather
     fetchWeather(destination);
 
-    // Fetch Attractions
     fetchAttractions(destination);
 });
 
-// Function to display flights
 function displayFlights(flights) {
     let flightsContainer = $('#flights-results');
     flightsContainer.empty();
@@ -57,9 +51,8 @@ function displayFlights(flights) {
     });
 }
 
-// Function to fetch weather data
 function fetchWeather(city) {
-    let weatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY&units=metric`;
+    let weatherAPI = `https://your-weather-api.com/search?city=${city}`;
 
     $.getJSON(weatherAPI, function (data) {
         $('#weather-info').html(`
@@ -72,7 +65,6 @@ function fetchWeather(city) {
     });
 }
 
-// Function to fetch attractions data
 function fetchAttractions(city) {
     let attractionsAPI = `https://your-attractions-api.com/search?city=${city}`;
 
