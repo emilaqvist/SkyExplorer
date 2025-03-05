@@ -10,7 +10,11 @@ public class Configurator {
     static{
         try(InputStream inputStream = Configurator.class.getClassLoader().getResourceAsStream("application.properties")){
             if (inputStream == null){
+
                 System.err.println("application.properties filen kunde ej hittas!");
+
+                System.err.println("appliction.properties filen kunde ej hittas");
+
             }else {
                 properties.load(inputStream);
             }
