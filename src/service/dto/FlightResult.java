@@ -1,8 +1,6 @@
 package service.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class FlightResult {
     private String id;
     private double price;
@@ -14,7 +12,7 @@ public class FlightResult {
     private int duration;
     private int stops;
     private String airline;
-    private Airport departureAirport;
+    private String departureAirport;
     private String arrivalAirport;
 
     private FlightResult(Builder builder) {
@@ -57,7 +55,7 @@ public class FlightResult {
         return departureTime;
     }
 
-    public Airport getDepartureAirport() {
+    public String getDepartureAirport() {
         return departureAirport;
     }
 
@@ -94,7 +92,7 @@ public class FlightResult {
         private int stops;
         private String airline;
 
-        private Airport departureAirport;
+        private String departureAirport;
         private String arrivalAirport;
 
         public Builder id(String id) {
@@ -137,7 +135,7 @@ public class FlightResult {
             return this;
         }
 
-        public Builder departureAirport(Airport departureAirport) {
+        public Builder departureAirport(String departureAirport) {
             this.departureAirport = departureAirport;
             return this;
         }

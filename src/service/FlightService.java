@@ -1,6 +1,7 @@
 package service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import service.dto.*;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,14 +14,16 @@ import java.util.stream.Collectors;
 public class FlightService {
     private final String apiKey;
     private final HttpClient httpClient;
-    private final ObjectMapper objectMapper;
+    private final Gson gson;
+
+    private String rawResponse;
     private static final String API_URL = "https://sky-scanner3.p.rapidapi.com/flights/search-multi-city";
     private static final int MAX_RESULTS = 10;
 
     public FlightService(String apiKey) {
         this.apiKey = apiKey;
         this.httpClient = HttpClient.newHttpClient();
-        this.objectMapper = new ObjectMapper();
+        this.gson = new GsonBuilder().setPrettyPrinting().create(); // Gson
     }
 
     public List<FlightResult> searchFlights(FlightSearchRequest searchRequest) throws FlightSearchException {
@@ -28,6 +31,8 @@ public class FlightService {
             String jsonBody = createRequestBody(searchRequest);
             HttpRequest request = buildHttpRequest(jsonBody);
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            this.rawResponse = response.body();
 
             if (response.statusCode() == 200) {
                 return parseAndLimitFlightResponse(response.body());
@@ -49,7 +54,7 @@ public class FlightService {
                 .build();
     }
 
-    private String createRequestBody(FlightSearchRequest searchRequest) throws Exception {
+    private String createRequestBody(FlightSearchRequest searchRequest) {
         Map<String, Object> requestMap = Map.of(
                 "market", "US",
                 "locale", "en-US",
@@ -67,16 +72,20 @@ public class FlightService {
                 ))
         );
 
-        return objectMapper.writeValueAsString(requestMap);
+        return gson.toJson(requestMap); //Gson
     }
 
-    private List<FlightResult> parseAndLimitFlightResponse(String responseBody) throws Exception {
-        FlightResponse flightResponse = objectMapper.readValue(responseBody, FlightResponse.class);
-
+    private List<FlightResult> parseAndLimitFlightResponse(String responseBody) {
+        FlightResponse flightResponse = gson.fromJson(responseBody, FlightResponse.class); // Konvertera JSON till objekt
         return flightResponse.getData().getItineraries().stream()
                 .limit(MAX_RESULTS)
                 .map(this::convertToFlightResult)
                 .collect(Collectors.toList());
+    }
+
+    //fanns för att testa raw respons
+    public String getRawResponse() {
+        return rawResponse;
     }
 
     private FlightResult convertToFlightResult(Itinerary itinerary) {
@@ -88,6 +97,7 @@ public class FlightService {
                 .formattedPrice(itinerary.getPrice().getFormatted())
                 .departureCity(leg.getOrigin().getCity())
                 .arrivalAirport(leg.getDestination().getName())
+                .departureAirport(leg.getOrigin().getName())
                 .arrivalCity(leg.getDestination().getCity())
                 .departureTime(leg.getDeparture())
                 .arrivalTime(leg.getArrival())
