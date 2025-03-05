@@ -15,5 +15,6 @@ public class App {
         PlaceController.registerRoutes(app);
 
         System.out.println("Server igång lyssnar på port 7000");
+        System.out.println("good");
     }
 }
