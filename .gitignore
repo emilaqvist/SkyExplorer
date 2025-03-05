@@ -31,4 +31,6 @@ bin/
 .DS_Store
 target/classes/resources/application.properties
 .idea/workspace.xml
-.idea/misc.xml
+
+target/classes/application.properties
+
