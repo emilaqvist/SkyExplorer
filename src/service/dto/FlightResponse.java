@@ -1,6 +1,6 @@
 package service.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
