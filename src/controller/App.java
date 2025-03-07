@@ -1,6 +1,7 @@
 package controller;
 
 import io.javalin.Javalin;
+import misc.Configurator;
 
 public class App {
     public static void main(String[] args) {
@@ -8,11 +9,17 @@ public class App {
 
         }).start(7000);
 
-        app.before(context -> context.contentType("application/json"));
+        app.before(ctx -> {
+            ctx.header("Access-Control-Allow-Origin", "*");
+            ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            ctx.header("Access-Control-Allow-Headers", "Content-Type, x-rapidapi-key, x-rapidapi-host");
+        });
 
+        String apiKey = Configurator.getProperty("FLIGHT_API_KEY");
         WeatherController.registerRoutes(app);
-        FlightController.registerRoutes(app);
+        SearchController.registerRoutes(app,apiKey);
         PlaceController.registerRoutes(app);
+
 
         System.out.println("Server igång lyssnar på port 7000");
         System.out.println("good");

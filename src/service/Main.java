@@ -1,5 +1,7 @@
 package service;
+/*
 
+//detta var en test klass i början för att testa API och ras sponse som vi fick
 import misc.Configurator;
 import service.dto.FlightResult;
 import service.dto.FlightSearchRequest;
@@ -43,4 +45,4 @@ public class Main {
             e.printStackTrace();
         }
     }
-}
+}*/

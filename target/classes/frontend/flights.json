@@ -1,0 +1,34 @@
+[
+    {
+        "departure": "Stockholm",
+        "destination": "New York",
+        "departureDate": "2024-04-10",
+        "returnDate": "2024-04-20",
+        "price": 499,
+        "currency": "USD"
+    },
+    {
+        "departure": "Stockholm",
+        "destination": "Berlin",
+        "departureDate": "2024-04-12",
+        "returnDate": "2024-04-18",
+        "price": 150,
+        "currency": "EUR"
+    },
+    {
+        "departure": "Copenhagen",
+        "destination": "Stockholm ",
+        "departureDate": "2025-02-26",
+        "returnDate": "2025-02-28",
+        "price": 150,
+        "currency": "EUR"
+    },
+    {
+        "departure": "Paris",
+        "destination": "Tokyo",
+        "departureDate": "2024-05-05",
+        "returnDate": "2024-05-15",
+        "price": 899,
+        "currency": "JPY"
+    }
+]
