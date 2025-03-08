@@ -87,3 +87,21 @@
 #search-flights:hover {
     background-color: #979797;
 }
+#faq{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: auto;
+    width: 70%;
+    border-radius: 10px;
+    padding: 20px;
+    border: #d0d0d0 0.5px solid;
+}
+#about_us{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: auto;
+    width: 70%;
+    border-radius: 10px;
+    padding: 20px;
+    border: #d0d0d0 0.5px solid;
+}
