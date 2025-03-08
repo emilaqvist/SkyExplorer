@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import misc.Configurator;
 import service.dto.Attraction;
 
 import java.net.URI;
@@ -18,14 +19,16 @@ import java.util.Locale;
 
 public class AttractionService {
 
+
+
     private final HttpClient httpClient;
-    private final String apiKey;
     private final String apiHost;
     private final String baseUrl;
+    private final String apiKey;
 
     public AttractionService() {
         this.httpClient = HttpClient.newHttpClient();
-        this.apiKey = "ca90664ac7msh43de15acd4241b8p1b2c8ejsn35c18291a913";
+        this.apiKey = Configurator.getProperty("ATTRACTION_PLACES");
         this.apiHost = "opentripmap-places-v1.p.rapidapi.com";
         this.baseUrl = "https://opentripmap-places-v1.p.rapidapi.com/en/places";
     }
