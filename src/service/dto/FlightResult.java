@@ -1,6 +1,13 @@
 package service.dto;
 
 
+
+/**
+ * Represents the details of a flight search result.
+ * This class contains essential information such as price, departure and arrival details, duration, stops, and airline information.
+ * It follows the **Builder pattern** to allow for flexible object creation.
+ * @author Mahyar
+ */
 public class FlightResult {
     private String id;
     private double price;
@@ -14,6 +21,12 @@ public class FlightResult {
     private String airline;
     private String departureAirport;
     private String arrivalAirport;
+
+    /**
+     * Private constructor for `FlightResult`, used by the Builder class.
+     *
+     * @param builder The builder instance used to construct a `FlightResult` object.
+     */
 
     private FlightResult(Builder builder) {
         this.id = builder.id;
@@ -30,55 +43,11 @@ public class FlightResult {
         this.arrivalAirport = builder.arrivalAirport;
     }
 
-    // Getters
-    public String getId() {
-        return id;
-    }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public String getFormattedPrice() {
-        return formattedPrice;
-    }
-
-    public String getDepartureCity() {
-        return departureCity;
-    }
-
-    public String getArrivalCity() {
-        return arrivalCity;
-    }
-
-    public String getDepartureTime() {
-        return departureTime;
-    }
-
-    public String getDepartureAirport() {
-        return departureAirport;
-    }
-
-    public String getArrivalAirport() {
-        return arrivalAirport;
-    }
-
-    public String getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public int getStops() {
-        return stops;
-    }
-
-    public String getAirline() {
-        return airline;
-    }
-
+    /**
+     * Builder class for creating `FlightResult` instances.
+     * This allows for a flexible and readable way of constructing a flight result object.
+     */
     // Builder class
     public static class Builder {
         private String id;
@@ -155,11 +124,22 @@ public class FlightResult {
             return this;
         }
 
+
+        /**
+         * Builds a "FlightResult" object.
+         *
+         * @return A new `FlightResult` instance.
+         */
         public FlightResult build() {
             return new FlightResult(this);
         }
     }
 
+    /**
+     * Returns a new Builder instance for constructing a "FlightResult".
+     *
+     * @return A new Builder instance.
+     */
     public static Builder builder() {
         return new Builder();
     }

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sevärdheter</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+    }
+
+    .main-heading {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .attraction-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        margin-bottom: 20px;
+        border: none;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .attraction-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .card-title {
+        font-weight: 600;
+        color: #3498db;
+    }
+
+    .card-text {
+        color: #555;
+        font-size: 1rem;
+    }
+
+    .category-badge {
+        background-color: #3498db;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-bottom: 8px;
+    }
+
+    .no-description {
+        font-style: italic;
+        color: #999;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 1200px;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="main-heading">Här är några platser du kan besöka</h1>
+
+  <div class="row" id="attractions-container">
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const destination = urlParams.get('destination');
+
+      if (destination) {
+          fetchAttractions(destination);
+      } else {
+          document.getElementById('attractions-container').innerHTML = '<p class="text-center">Ingen destination angiven.</p>';
+      }
+  });
+
+  async function fetchAttractions(destination) {
+      try {
+          const response = await fetch(`/api/attractions?destination=${encodeURIComponent(destination)}`);
+
+          if (!response.ok) {
+              throw new Error('Kunde inte hämta attraktioner');
+          }
+
+          const attractions = await response.json();
+          displayAttractions(attractions);
+      } catch (error) {
+          console.error('Fel vid hämtning av attraktioner:', error);
+          document.getElementById('attractions-container').innerHTML =
+              `<div class="col-12"><div class="alert alert-danger">Kunde inte hämta attraktioner: ${error.message}</div></div>`;
+      }
+  }
+
+  function displayAttractions(attractions) {
+      const container = document.getElementById('attractions-container');
+
+      if (!attractions || attractions.length === 0) {
+          container.innerHTML = '<p class="text-center">Inga attraktioner hittades för denna destination.</p>';
+          return;
+      }
+
+      const attractionsHTML = attractions.map(attraction => {
+          return `
+          <div class="col-md-4 mb-4">
+              <div class="card attraction-card">
+                  <div class="card-body">
+                      <span class="category-badge">${attraction.kinds.split(',')[0]}</span>
+                      <h5 class="card-title">${attraction.name}</h5>
+                      <p class="card-text">
+                          ${attraction.wikipedia_extracts && attraction.wikipedia_extracts.text
+                              ? attraction.wikipedia_extracts.text
+                              : '<span class="no-description">Ingen beskrivning tillgänglig</span>'}
+                      </p>
+                      ${attraction.wikipedia
+                          ? `<a href="${attraction.wikipedia}" target="_blank" class="btn btn-primary">Läs mer</a>`
+                          : ''}
+                  </div>
+              </div>
+          </div>`;
+      }).join('');
+
+      container.innerHTML = attractionsHTML;
+  }
+</script>
+</body>
+</html>

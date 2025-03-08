@@ -2,15 +2,20 @@ package controller;
 
 import com.google.gson.Gson;
 import io.javalin.Javalin;
-import service.FlightSearchException;
-import service.FlightService;
-import service.LocationMapper;
-import service.WeatherService;
+import service.*;
+import service.dto.Attraction;
 import service.dto.FlightSearchRequest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Emil
+ * @author Mahyar
+ *
+ *
+ **/
 public class SearchController {
     private static FlightService flightService;
     private static WeatherService weatherService;
@@ -27,9 +32,25 @@ public class SearchController {
             String departDate = context.queryParam("departDate");
             String returnDate = context.queryParam("returnDate");
 
-            if (from == null || destination == null || departDate == null ||
-                    from.isEmpty() || destination.isEmpty() || departDate.isEmpty()) {
-                context.status(400).result("{\"error\":\"Saknar obligatoriska parametrar: from, destination och departDate\"}");
+            Map<String, String> errors = new HashMap<>();
+            if (from == null || from.isEmpty()) {
+                errors.put("from", "Avreseplats måste anges");
+            }
+
+            if (destination == null || destination.isEmpty()) {
+                errors.put("destination", "Destination måste anges");
+            }
+
+            if (departDate == null || departDate.isEmpty()) {
+                errors.put("departDate", "Avresedatum måste anges");
+            }
+
+            if (!errors.isEmpty()) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Saknar obligatoriska parametrar");
+                errorResponse.put("details", errors);
+
+                context.status(400).result(gson.toJson(errorResponse));
                 return;
             }
             // Använd LocationMapper för att översätta platsnamn till flight, eftersom API vill ha forkortningar för flyggplatser
@@ -50,9 +71,32 @@ public class SearchController {
 
                 //Returnera ihopslagna
                 context.result(gson.toJson(combined));
-            }catch (FlightSearchException e){
+            } catch (FlightSearchException e) {
                 System.err.println("Raw flight API response: " + flightService.getRawResponse());
-                context.status(500).result("{\"error\":\"" + e.getMessage() + "\"}");
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", e.getMessage());
+                context.status(e.getHttpStatus()).result(gson.toJson(errorResponse));
+            }
+        });
+
+        app.get("/attractions", context -> {
+            String city = context.queryParam("city");
+
+            if (city == null || city.isEmpty()) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Stad måste anges");
+                context.status(400).result(gson.toJson(errorResponse));
+                return;
+            }
+
+            try {
+                AttractionService attractionService = new AttractionService();
+                List<Attraction> attractions = attractionService.getAttractionsForCity(city);
+                context.result(gson.toJson(attractions));
+            } catch (Exception e) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Fel vid hämtning av attraktioner: " + e.getMessage());
+                context.status(500).result(gson.toJson(errorResponse));
             }
         });
 

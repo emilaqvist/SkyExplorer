@@ -18,7 +18,6 @@ public class App {
         String apiKey = Configurator.getProperty("FLIGHT_API_KEY");
         WeatherController.registerRoutes(app);
         SearchController.registerRoutes(app,apiKey);
-        PlaceController.registerRoutes(app);
 
 
         System.out.println("Server igång lyssnar på port 7000");

@@ -43,18 +43,19 @@ async function searchFlightsAndWeather() {
     console.log("Searching flights & weather with URL: " + url)
 
     const response = await fetch(url)
-    if (!response.ok) {
-      throw new Error("Network error: " + response.status)
-    }
-
     const data = await response.json()
-    displayResults(data)
-  } catch (error) {
-    console.error("Error calling backend:", error)
-    showAlert(`Error: ${error.message}`, "danger")
-  } finally {
-    showLoading(false)
-  }
+    if (!response.ok) {
+
+        throw new Error(data.error || "Something went wrong")
+      }
+
+      displayResults(data)
+    } catch (error) {
+      console.error("Fel vid anrop till backend:", error)
+      showAlert("Fel: " + error.message)
+    } finally {
+      showLoading(false)
+    }
 }
 
 // Function to display results
@@ -217,6 +218,19 @@ function displayResults(data) {
     },
     500,
   )
+
+  const destinationCity = data.flights[0].arrivalCity;
+
+      const exploreButton = `
+          <div class="text-center mt-4">
+              <a href="attractions.html?city=${encodeURIComponent(destinationCity)}" class="btn btn-primary">
+                  <i class="bi bi-map"></i> Utforska ${destinationCity}
+              </a>
+          </div>
+      `;
+
+      // Lägg till knappen efter flygresultaten
+      $("#results-container").append(exploreButton);
 }
 
 // Helper function to get weather class based on weather code

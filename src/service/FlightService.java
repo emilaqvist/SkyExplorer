@@ -26,8 +26,25 @@ public class FlightService {
         this.gson = new GsonBuilder().setPrettyPrinting().create(); // Gson
     }
 
+
+    /**
+     * Searches for flights based on the given search request parameters.
+     *
+     * @param searchRequest the flight search request containing user-specified search criteria.
+     * @return a list of flight results limited to MAX_RESULTS.
+     * @throws FlightSearchException if an error occurs while searching for flights.
+     * @author Mahyar
+     */
     public List<FlightResult> searchFlights(FlightSearchRequest searchRequest) throws FlightSearchException {
         try {
+
+            if (searchRequest == null) {
+                throw new FlightSearchException("Sökförfrågan kan inte vara null", 400); // Bad Request
+            }
+
+            if (searchRequest.getFromLocation() == null || searchRequest.getToLocation() == null) {
+                throw new FlightSearchException("Avrese- och destinationsplats måste anges", 400); // Bad Request
+            }
             String jsonBody = createRequestBody(searchRequest);
             HttpRequest request = buildHttpRequest(jsonBody);
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -35,15 +52,35 @@ public class FlightService {
             this.rawResponse = response.body();
 
             if (response.statusCode() == 200) {
-                return parseAndLimitFlightResponse(response.body());
+                try {
+                    return parseAndLimitFlightResponse(response.body());
+                }catch (NullPointerException e) {
+
+                        throw new FlightSearchException("Inga flygdata hittades för den angivna rutten. Kontrollera stadsnamnen.", 404);
+                }
+
+            } else if (response.statusCode() == 400) {
+                throw new FlightSearchException("Ogiltig förfrågan till flygAPI: " , 400); // Bad Request
+            } else if (response.statusCode() == 404) {
+                throw new FlightSearchException("Flygresursen kunde inte hittas: " , 404); // Not Found
             } else {
-                throw new FlightSearchException("Failed to search flights. Status code: " + response.statusCode());
+                throw new FlightSearchException("Fel vid sökning av flyg. Statuskod: " , 500); // Server Error
             }
+        } catch (FlightSearchException e) {
+            throw e;
         } catch (Exception e) {
-            throw new FlightSearchException("Error searching for flights", e);
+            throw new FlightSearchException("Fel vid sökning av flyg: " + e.getMessage(), e, 500); // Server Error
         }
     }
 
+
+    /**
+     * Builds an HTTP request for searching flights.
+     *
+     * @param jsonBody the request body in JSON format.
+     * @return the constructed HttpRequest.
+     * @author Mahyar
+     */
     private HttpRequest buildHttpRequest(String jsonBody) {
         return HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
@@ -54,6 +91,14 @@ public class FlightService {
                 .build();
     }
 
+
+    /**
+     * Creates the JSON request body for the flight search request.
+     *
+     * @param searchRequest the search request parameters.
+     * @return the request body as a JSON string.
+     * @author Mahyar
+     */
     private String createRequestBody(FlightSearchRequest searchRequest) {
         Map<String, Object> requestMap = Map.of(
                 "market", "US",
@@ -75,6 +120,14 @@ public class FlightService {
         return gson.toJson(requestMap); //Gson
     }
 
+
+    /**
+     * Parses the API response and limits the results to a maximum number.
+     *
+     * @param responseBody the JSON response from the API.
+     * @return a list of parsed and limited flight results.
+     * @author Mahyar
+     */
     private List<FlightResult> parseAndLimitFlightResponse(String responseBody) {
         FlightResponse flightResponse = gson.fromJson(responseBody, FlightResponse.class); // Konvertera JSON till objekt
         return flightResponse.getData().getItineraries().stream()
@@ -88,11 +141,19 @@ public class FlightService {
         return rawResponse;
     }
 
+
+    /**
+     * Converts an Itinerary object to a FlightResult object.
+     *
+     * @param itinerary the itinerary to convert.
+     * @return a FlightResult object containing structured flight details.
+     * @Mahyar
+     */
     private FlightResult convertToFlightResult(Itinerary itinerary) {
         Leg leg = itinerary.getLegs().get(0);
 
         return FlightResult.builder()
-                .id(itinerary.getId())
+
                 .price(itinerary.getPrice().getRaw())
                 .formattedPrice(itinerary.getPrice().getFormatted())
                 .departureCity(leg.getOrigin().getCity())
