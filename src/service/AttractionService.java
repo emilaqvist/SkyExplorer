@@ -17,15 +17,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Service class responsible for retrieving tourist attractions and points of interest
+ * for a specified city using the OpenTripMap API.
+ *
+ * @author Mahyar
+ * @author Emil
+ */
+
 public class AttractionService {
-
-
 
     private final HttpClient httpClient;
     private final String apiHost;
     private final String baseUrl;
     private final String apiKey;
 
+    /**
+     * Constructs a new AttractionService instance.
+     * Initializes the HTTP client and retrieves the API key from the application configuration.
+     */
     public AttractionService() {
         this.httpClient = HttpClient.newHttpClient();
         this.apiKey = Configurator.getProperty("ATTRACTION_PLACES");
@@ -33,6 +43,14 @@ public class AttractionService {
         this.baseUrl = "https://opentripmap-places-v1.p.rapidapi.com/en/places";
     }
 
+
+    /**
+     * Retrieves a list of attractions for a specified city.
+     *
+     * @param city The name of the city to find attractions for
+     * @return A list of Attraction objects containing details about points of interest
+     * @throws Exception If an error occurs during any step of the process, including API communication errors
+     */
     public List<Attraction> getAttractionsForCity(String city) throws Exception {
         // hämta koordinates för att hämta attractions, asså places
         double[] coordinates = getCoordinates(city);
@@ -48,6 +66,14 @@ public class AttractionService {
         return attractions;
     }
 
+
+    /**
+     * Retrieves the geographic coordinates (latitude and longitude) for a specified city.
+     *
+     * @param city The name of the city to get coordinates for
+     * @return An array of doubles where index 0 is latitude and index 1 is longitude
+     * @throws Exception If the API request fails or returns an error status code
+     */
     private double[] getCoordinates(String city) throws Exception {
         // Koda stadsnamnet för URL
         String encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8);
@@ -81,6 +107,16 @@ public class AttractionService {
         return new double[] { lat, lon };
     }
 
+    /**
+     * Retrieves a list of places near the specified coordinates.
+     *
+     * @param lat The latitude coordinate
+     * @param lon The longitude coordinate
+     * @param radius The search radius in meters
+     * @param limit The maximum number of results to return
+     * @return A filtered list of Attraction objects
+     * @throws Exception If the API request fails or returns an error status code
+     */
     private List<Attraction> getPlacesNearby(double lat, double lon, int radius, int limit) throws Exception {
         // Bygg URL för att hämta platser i närheten, fick använda US locale allt annat blev fel
         String url = String.format(Locale.US,
@@ -126,6 +162,12 @@ public class AttractionService {
         return attractions;
     }
 
+    /**
+     * Determines if a place is interesting based on its categories.
+     *
+     * @param kinds A comma-separated string of categories associated with the place
+     * @return true if the place belongs to at least one interesting category, false otherwise
+     */
     private boolean isInterestingPlace(String kinds) {
         // Filtrera platser,  man kan filtrera mer om man vill genom att ta bort kategorierna
         String[] interestingCategories = {
@@ -143,6 +185,12 @@ public class AttractionService {
         return false;
     }
 
+    /**
+     * Retrieves detailed information for a specific attraction.
+     *
+     * @param attraction The Attraction object to update with detailed information
+     * @throws Exception If an error occurs during the API request or response parsing
+     */
     private void getPlaceDetails(Attraction attraction) throws Exception {
         // Bygg URL för att hämta detaljer om en plats
         String url = baseUrl + "/xid/" + attraction.getXid();
