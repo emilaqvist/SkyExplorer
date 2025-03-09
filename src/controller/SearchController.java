@@ -2,6 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import io.javalin.Javalin;
+import model.dto.FlightResult;
 import service.*;
 import model.dto.Attraction;
 import model.dto.FlightSearchRequest;
@@ -11,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *SearchController hanterar endpoints för API för att söka på flyg, hämta väderdata samt sevärdheter.
+ * Denna kontroller klass tar ihop många tjänster och returnerar en sk. mashup flyg väder och sevärdheter.
  * @author Emil
  * @author Mahyar
- * SearchController hanterar endpoints för API för att söka på flyg, hämta väderdata samt sevärdheter.
- * Denna kontroller klass tar ihop många tjänster och returnerar en sk. mashup flyg väder och sevärdheter.
  **/
 public class SearchController {
     private static FlightService flightService;
@@ -65,7 +66,7 @@ public class SearchController {
             FlightSearchRequest request = new FlightSearchRequest(fromFlightId,destinationFlightId,departDate);
 
             try{
-                var flights = flightService.searchFlights(request);
+                List<FlightResult> flights = flightService.searchFlights(request); //Bytte till tydligare definiering istället för tidigare med var
                 String weatherJson = weatherService.getWeatherData(destination);
 
                 //Kombinera

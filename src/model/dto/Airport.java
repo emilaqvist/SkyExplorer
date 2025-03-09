@@ -3,7 +3,7 @@ package model.dto;
 
 /**
  * Represents an airport with its name and the city it is located in.
- * This class is typically used to store departure and arrival airport details.'
+ * This class is typically used to store departure and arrival airport details.
  * @author Mahyar
  */
 
