@@ -5,25 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/FlightSearchException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/Airline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/Airport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/Carriers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/FlightResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/FlightResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/FlightSearchRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/Itinerary.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/Leg.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/dto/Segment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SkyExplorer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SkyExplorer.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/SearchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/WeatherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/WeatherController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/flight-script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/flights.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/api-docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/views/api-docs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/views/attractions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/views/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/flight.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/views/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/Configurator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/Configurator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Flight.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Place.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Weather.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/AttractionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/AttractionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/FlightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/FlightService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/WeatherService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/WeatherService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/Airline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/Airline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/Airport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/Airport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/Attraction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/Attraction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/Carriers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/Carriers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/FlightResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/FlightResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/FlightResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/FlightResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/FlightSearchRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/FlightSearchRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/Itinerary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/Itinerary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/dto/Leg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/Leg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/SearchController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/WeatherController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/flight-script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/flights.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/api-docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/api-docs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/attractions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/flight.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/flight.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/misc/Configurator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/misc/Configurator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Flight.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Place.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Weather.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/AttractionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/AttractionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/FlightService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/FlightService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/WeatherService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/WeatherService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/Airline.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/Airport.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/Attraction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/Carriers.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/FlightResponse$FlightData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/FlightResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/FlightResult$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/FlightResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/FlightSearchRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/Itinerary$Price.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/Itinerary.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/Leg.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,27 +98,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Mahyar1&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "Application.service.Main.executor": "Run",
+    "JavaScript Debug.api-docs.html.executor": "Run",
+    "JavaScript Debug.flight.html.executor": "Run",
+    "JavaScript Debug.index.html.executor": "Run",
+    "Maven.SkyExplorer [clean,install].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Test-Branch",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.service.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="SkyExplorer" />
@@ -143,6 +193,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="nytt" />

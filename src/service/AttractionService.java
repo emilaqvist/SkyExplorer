@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import misc.Configurator;
-import service.dto.Attraction;
+import model.dto.Attraction;
 
 import java.net.URI;
 import java.net.URLEncoder;

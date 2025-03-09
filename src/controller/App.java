@@ -3,7 +3,17 @@ package controller;
 import io.javalin.Javalin;
 import misc.Configurator;
 
+/**
+ * Main klassen till applikationen, den har som ansvarsområde att starta våran JavaLin server till webben.
+ * Klassen initierar alltså servern, samt kallar på klasserna som skapar API routesen.
+ */
 public class App {
+    /**
+     * Main metoden till appen.
+     * Startar javalin servern på port 7000, gör CORS inställningar och sedan gör ett call till register routes.
+     * Funkar det så skrivs prints ut i loggen.
+     * @param args
+     */
     public static void main(String[] args) {
         Javalin app = Javalin.create(javalinConfig -> {
 
@@ -16,7 +26,6 @@ public class App {
         });
 
         String apiKey = Configurator.getProperty("FLIGHT_API_KEY");
-        //WeatherController.registerRoutes(app);
         SearchController.registerRoutes(app,apiKey);
 
 

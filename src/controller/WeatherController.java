@@ -1,3 +1,8 @@
+/*
+Användes innan vi kombinerade våra APIn (Flight & Väder), vi ansåg att det var smidigare att göra de kombinerat i en
+SearchController istället.
+ */
+/*
 package controller;
 
 import io.javalin.Javalin;
@@ -21,3 +26,5 @@ public class WeatherController {
 
     }
 }
+
+ */

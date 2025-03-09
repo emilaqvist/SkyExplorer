@@ -10,10 +10,20 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Service klass för att hämta väderdata från Tomorow.io's API.
+ * @author Emil
+ */
 public class WeatherService {
 
-    private static final String API_NYCKEL = Configurator.getProperty("TOMOROW_API_KEY");
+    private static final String API_NYCKEL = Configurator.getProperty("TOMOROW_API_KEY"); //Gömd nyckel måste hämtas via konfiguratorn
     private static final String URL_BASE = "https://api.tomorrow.io/v4/weather/forecast";
+
+    /**
+     * Denna metod hämtar väderdata för en inputtad plats.
+     * @param location Platsen (Stad) där väderdatan skall hämtas (det stället vi vill få info om)
+     * @return En JSON sträng med väderdata, alt felmeddelande om något har gått fel.
+     */
     public String getWeatherData(String location) {
 
         try{

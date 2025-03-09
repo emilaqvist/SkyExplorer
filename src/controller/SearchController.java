@@ -3,8 +3,8 @@ package controller;
 import com.google.gson.Gson;
 import io.javalin.Javalin;
 import service.*;
-import service.dto.Attraction;
-import service.dto.FlightSearchRequest;
+import model.dto.Attraction;
+import model.dto.FlightSearchRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,15 +13,19 @@ import java.util.Map;
 /**
  * @author Emil
  * @author Mahyar
- *
- *
+ * SearchController hanterar endpoints för API för att söka på flyg, hämta väderdata samt sevärdheter.
+ * Denna kontroller klass tar ihop många tjänster och returnerar en sk. mashup flyg väder och sevärdheter.
  **/
-
 public class SearchController {
     private static FlightService flightService;
     private static WeatherService weatherService;
     private static final Gson gson = new Gson();
 
+    /**
+     * Registrerar API route för sökning av flyg, väderlek samt sevärdheter.
+     * @param app Instansen av vår javalin applikation
+     * @param rapidApiKey API nyckeln som hör till flyg APIt
+     */
     public static void registerRoutes(Javalin app, String rapidApiKey){
 
         flightService = new FlightService(rapidApiKey);

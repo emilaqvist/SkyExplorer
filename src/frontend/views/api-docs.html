@@ -9,6 +9,7 @@
 <body>
 <div class="container">
     <h1>SkyExplorer API Dokumentation</h1>
+    <a href="index.html" class="tillbakaKnapp">Tillbaka till huvudmenyn</a>
     <p>Detta är dokumentationen för SkyExplorer API:et som används för att söka flyg, väder och sevärdheter.</p>
 
     <div class="section">
@@ -278,7 +279,7 @@
 
         <h3>Hantering av fel i klienten</h3>
         <p>Exempel på hur man kan hantera fel i JavaScript:</p>
-        <pre>fetch('http://localhost:7000/search?from=Stockholm&destination=London&departDate=2023-12-25')
+        <pre>fetch('http://localhost:7000/search?from=Stockholm&destination=London&departDate=2025-03-08')
   .then(response => {
     if (!response.ok) {
       return response.json().then(data => {
@@ -303,7 +304,7 @@
         <h2>Exempel</h2>
 
         <h3>Exempel på anrop för flygsökning:</h3>
-        <pre>GET http://localhost:7000/search?from=Stockholm&destination=London&departDate=2023-12-25</pre>
+        <pre>GET http://localhost:7000/search?from=Stockholm&destination=London&departDate=2025-03-08</pre>
 
         <h3>Exempel på svar för flygsökning:</h3>
         <pre>{
@@ -313,8 +314,8 @@
       "formattedPrice": "$299.99",
       "departureCity": "Stockholm",
       "arrivalCity": "London",
-      "departureTime": "2024-12-25 Time: 08:30:00",
-      "arrivalTime": "2024-12-25 Time: 10:45:00",
+      "departureTime": "2025-03-08T08:30:00",
+      "arrivalTime": "2025-03-08T10:45:00",
       "duration": 135,
       "stops": 0,
       "airline": "SAS",
@@ -326,7 +327,7 @@
     "timelines": {
       "hourly": [
         {
-          "time": "2024-12-25 Time: 00:00:00Z",
+          "time": "2025-03-08T00:00:00Z",
           "values": {
             "temperature": 5.2,
             "weatherCode": 1001
@@ -365,7 +366,7 @@
 async function searchFlights() {
   const from = "Stockholm";
   const destination = "London";
-  const departDate = "2024-12-25";
+  const departDate = "2025-03-08";
 
   try {
     const url = `http://localhost:7000/search?from=${encodeURIComponent(from)}&destination=${encodeURIComponent(destination)}&departDate=${encodeURIComponent(departDate)}`;
