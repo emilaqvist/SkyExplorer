@@ -1,0 +1,1593 @@
+Index: src/service/dto/Carriers.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package service.dto;\r\n\r\n\r\nimport java.util.List;\r\n\r\n/**\r\n * Represents the carriers (airlines) associated with a flight.\r\n * This class is mainly used for retrieving marketing airline details.\r\n * @author Mahyar\r\n */\r\npublic class Carriers {\r\n    private List<Airline> marketing;\r\n\r\n    /**\r\n     * Retrieves the list of marketing airlines.\r\n     *\r\n     * @return A list of {@link Airline} objects representing the marketing airlines.\r\n     */\r\n    public List<Airline> getMarketing() {\r\n        return marketing;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/service/dto/Carriers.java b/src/service/dto/Carriers.java
+--- a/src/service/dto/Carriers.java	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/src/service/dto/Carriers.java	(date 1741449672516)
+@@ -1,6 +1,6 @@
+ package service.dto;
+-
+-
++/*
++*/
+ import java.util.List;
+ 
+ /**
+Index: src/service/dto/FlightResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package service.dto;\r\n\r\n\r\nimport java.util.List;\r\n\r\n\r\n/**\r\n * Represents the response structure for flight data retrieved from an external API.\r\n * This class contains flight-related details and is used for deserializing JSON responses.\r\n * @author Mahyar\r\n */\r\n\r\npublic class FlightResponse {\r\n    private FlightData data;\r\n\r\n    /**\r\n     * Gets the flight data containing the list of itineraries.\r\n     *\r\n     * @return The {@link FlightData} object containing itinerary details.\r\n     */\r\n    public FlightData getData() {\r\n        return data;\r\n    }\r\n\r\n    public static class FlightData {\r\n\r\n        /** List of flight itineraries included in the response. */\r\n        private List<Itinerary> itineraries;\r\n\r\n        /**\r\n         * Gets the list of itineraries for the flight response.\r\n         *\r\n         * @return A list of {@link Itinerary} objects.\r\n         */\r\n        public List<Itinerary> getItineraries() {\r\n            return itineraries;\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/service/dto/FlightResponse.java b/src/service/dto/FlightResponse.java
+--- a/src/service/dto/FlightResponse.java	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/src/service/dto/FlightResponse.java	(date 1741449672529)
+@@ -1,6 +1,8 @@
+ package service.dto;
++/*
+ 
+ 
++ */
+ import java.util.List;
+ 
+ 
+Index: src/controller/SearchController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller;\r\n\r\nimport com.google.gson.Gson;\r\nimport io.javalin.Javalin;\r\nimport service.*;\r\nimport service.dto.Attraction;\r\nimport service.dto.FlightSearchRequest;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\n/**\r\n * @author Emil\r\n * @author Mahyar\r\n *\r\n *\r\n **/\r\npublic class SearchController {\r\n    private static FlightService flightService;\r\n    private static WeatherService weatherService;\r\n    private static final Gson gson = new Gson();\r\n\r\n    public static void registerRoutes(Javalin app, String rapidApiKey){\r\n\r\n        flightService = new FlightService(rapidApiKey);\r\n        weatherService = new WeatherService();\r\n\r\n        app.get(\"/search\", context -> {\r\n            String from = context.queryParam(\"from\");\r\n            String destination = context.queryParam(\"destination\");\r\n            String departDate = context.queryParam(\"departDate\");\r\n            String returnDate = context.queryParam(\"returnDate\");\r\n\r\n            Map<String, String> errors = new HashMap<>();\r\n            if (from == null || from.isEmpty()) {\r\n                errors.put(\"from\", \"Avreseplats måste anges\");\r\n            }\r\n\r\n            if (destination == null || destination.isEmpty()) {\r\n                errors.put(\"destination\", \"Destination måste anges\");\r\n            }\r\n\r\n            if (departDate == null || departDate.isEmpty()) {\r\n                errors.put(\"departDate\", \"Avresedatum måste anges\");\r\n            }\r\n\r\n            if (!errors.isEmpty()) {\r\n                Map<String, Object> errorResponse = new HashMap<>();\r\n                errorResponse.put(\"error\", \"Saknar obligatoriska parametrar\");\r\n                errorResponse.put(\"details\", errors);\r\n\r\n                context.status(400).result(gson.toJson(errorResponse));\r\n                return;\r\n            }\r\n            // Använd LocationMapper för att översätta platsnamn till flight, eftersom API vill ha forkortningar för flyggplatser\r\n            String fromFlightId = LocationMapper.getFlightId(from);\r\n            String destinationFlightId = LocationMapper.getFlightId(destination);\r\n\r\n            FlightSearchRequest request = new FlightSearchRequest(fromFlightId,destinationFlightId,departDate);\r\n\r\n            try{\r\n                var flights = flightService.searchFlights(request);\r\n                String weatherJson = weatherService.getWeatherData(destination);\r\n\r\n                //Kombinera\r\n\r\n                Map<String,Object> combined = new HashMap<>();\r\n                combined.put(\"flights\",flights);\r\n                combined.put(\"weather\",gson.fromJson(weatherJson,Object.class));\r\n\r\n                //Returnera ihopslagna\r\n                context.result(gson.toJson(combined));\r\n            } catch (FlightSearchException e) {\r\n                System.err.println(\"Raw flight API response: \" + flightService.getRawResponse());\r\n                Map<String, String> errorResponse = new HashMap<>();\r\n                errorResponse.put(\"error\", e.getMessage());\r\n                context.status(e.getHttpStatus()).result(gson.toJson(errorResponse));\r\n            }\r\n        });\r\n\r\n        app.get(\"/attractions\", context -> {\r\n            String city = context.queryParam(\"city\");\r\n\r\n            if (city == null || city.isEmpty()) {\r\n                Map<String, String> errorResponse = new HashMap<>();\r\n                errorResponse.put(\"error\", \"Stad måste anges\");\r\n                context.status(400).result(gson.toJson(errorResponse));\r\n                return;\r\n            }\r\n\r\n            try {\r\n                AttractionService attractionService = new AttractionService();\r\n                List<Attraction> attractions = attractionService.getAttractionsForCity(city);\r\n                context.result(gson.toJson(attractions));\r\n            } catch (Exception e) {\r\n                Map<String, String> errorResponse = new HashMap<>();\r\n                errorResponse.put(\"error\", \"Fel vid hämtning av attraktioner: \" + e.getMessage());\r\n                context.status(500).result(gson.toJson(errorResponse));\r\n            }\r\n        });\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/controller/SearchController.java b/src/controller/SearchController.java
+--- a/src/controller/SearchController.java	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/src/controller/SearchController.java	(date 1741450327274)
+@@ -21,6 +21,11 @@
+     private static WeatherService weatherService;
+     private static final Gson gson = new Gson();
+ 
++    /**
++     *
++     * @param app
++     * @param rapidApiKey
++     */
+     public static void registerRoutes(Javalin app, String rapidApiKey){
+ 
+         flightService = new FlightService(rapidApiKey);
+Index: src/controller/App.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller;\r\n\r\nimport io.javalin.Javalin;\r\nimport misc.Configurator;\r\n\r\npublic class App {\r\n    public static void main(String[] args) {\r\n        Javalin app = Javalin.create(javalinConfig -> {\r\n\r\n        }).start(7000);\r\n\r\n        app.before(ctx -> {\r\n            ctx.header(\"Access-Control-Allow-Origin\", \"*\");\r\n            ctx.header(\"Access-Control-Allow-Methods\", \"GET, POST, PUT, DELETE, OPTIONS\");\r\n            ctx.header(\"Access-Control-Allow-Headers\", \"Content-Type, x-rapidapi-key, x-rapidapi-host\");\r\n        });\r\n\r\n        String apiKey = Configurator.getProperty(\"FLIGHT_API_KEY\");\r\n        WeatherController.registerRoutes(app);\r\n        SearchController.registerRoutes(app,apiKey);\r\n\r\n\r\n        System.out.println(\"Server igång lyssnar på port 7000\");\r\n        System.out.println(\"good\");\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/controller/App.java b/src/controller/App.java
+--- a/src/controller/App.java	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/src/controller/App.java	(date 1741450252346)
+@@ -3,7 +3,14 @@
+ import io.javalin.Javalin;
+ import misc.Configurator;
+ 
++/**
++ *
++ */
+ public class App {
++    /**
++     *
++     * @param args
++     */
+     public static void main(String[] args) {
+         Javalin app = Javalin.create(javalinConfig -> {
+ 
+Index: target/classes/frontend/views/attractions.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"sv\">\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n  <title>Sevärdheter</title>\r\n  <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\r\n  <style>\r\n    body {\r\n        background-color: #f8f9fa;\r\n        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n        padding: 20px;\r\n    }\r\n\r\n    .main-heading {\r\n        font-size: 2.5rem;\r\n        color: #2c3e50;\r\n        margin-bottom: 1.5rem;\r\n        text-align: center;\r\n        font-weight: 600;\r\n        text-shadow: 1px 1px 3px rgba(0,0,0,0.1);\r\n    }\r\n\r\n    .attraction-card {\r\n        border-radius: 10px;\r\n        box-shadow: 0 4px 8px rgba(0,0,0,0.1);\r\n        transition: transform 0.3s, box-shadow 0.3s;\r\n        margin-bottom: 20px;\r\n        border: none;\r\n        overflow: hidden;\r\n        height: 100%;\r\n    }\r\n\r\n    .attraction-card:hover {\r\n        transform: translateY(-5px);\r\n        box-shadow: 0 8px 16px rgba(0,0,0,0.2);\r\n    }\r\n\r\n    .card-title {\r\n        font-weight: 600;\r\n        color: #3498db;\r\n    }\r\n\r\n    .card-text {\r\n        color: #555;\r\n        font-size: 1rem;\r\n    }\r\n\r\n    .category-badge {\r\n        background-color: #3498db;\r\n        color: white;\r\n        padding: 4px 8px;\r\n        border-radius: 4px;\r\n        font-size: 0.8rem;\r\n        display: inline-block;\r\n        margin-bottom: 8px;\r\n    }\r\n\r\n    .no-description {\r\n        font-style: italic;\r\n        color: #999;\r\n    }\r\n\r\n    .container {\r\n        padding: 20px;\r\n        max-width: 1200px;\r\n    }\r\n\r\n    .btn-primary {\r\n        background-color: #3498db;\r\n        border: none;\r\n        padding: 8px 16px;\r\n        border-radius: 5px;\r\n        transition: background-color 0.3s;\r\n    }\r\n\r\n    .btn-primary:hover {\r\n        background-color: #2980b9;\r\n    }\r\n  </style>\r\n</head>\r\n<body>\r\n<div class=\"container\">\r\n  <h1 class=\"main-heading\">Här är några platser du kan besöka</h1>\r\n\r\n  <div class=\"row\" id=\"attractions-container\">\r\n  </div>\r\n</div>\r\n\r\n<script>\r\n  document.addEventListener('DOMContentLoaded', function() {\r\n      const urlParams = new URLSearchParams(window.location.search);\r\n      const destination = urlParams.get('destination');\r\n\r\n      if (destination) {\r\n          fetchAttractions(destination);\r\n      } else {\r\n          document.getElementById('attractions-container').innerHTML = '<p class=\"text-center\">Ingen destination angiven.</p>';\r\n      }\r\n  });\r\n\r\n  async function fetchAttractions(destination) {\r\n      try {\r\n          const response = await fetch(`/api/attractions?destination=${encodeURIComponent(destination)}`);\r\n\r\n          if (!response.ok) {\r\n              throw new Error('Kunde inte hämta attraktioner');\r\n          }\r\n\r\n          const attractions = await response.json();\r\n          displayAttractions(attractions);\r\n      } catch (error) {\r\n          console.error('Fel vid hämtning av attraktioner:', error);\r\n          document.getElementById('attractions-container').innerHTML =\r\n              `<div class=\"col-12\"><div class=\"alert alert-danger\">Kunde inte hämta attraktioner: ${error.message}</div></div>`;\r\n      }\r\n  }\r\n\r\n  function displayAttractions(attractions) {\r\n      const container = document.getElementById('attractions-container');\r\n\r\n      if (!attractions || attractions.length === 0) {\r\n          container.innerHTML = '<p class=\"text-center\">Inga attraktioner hittades för denna destination.</p>';\r\n          return;\r\n      }\r\n\r\n      const attractionsHTML = attractions.map(attraction => {\r\n          return `\r\n          <div class=\"col-md-4 mb-4\">\r\n              <div class=\"card attraction-card\">\r\n                  <div class=\"card-body\">\r\n                      <span class=\"category-badge\">${attraction.kinds.split(',')[0]}</span>\r\n                      <h5 class=\"card-title\">${attraction.name}</h5>\r\n                      <p class=\"card-text\">\r\n                          ${attraction.wikipedia_extracts && attraction.wikipedia_extracts.text\r\n                              ? attraction.wikipedia_extracts.text\r\n                              : '<span class=\"no-description\">Ingen beskrivning tillgänglig</span>'}\r\n                      </p>\r\n                      ${attraction.wikipedia\r\n                          ? `<a href=\"${attraction.wikipedia}\" target=\"_blank\" class=\"btn btn-primary\">Läs mer</a>`\r\n                          : ''}\r\n                  </div>\r\n              </div>\r\n          </div>`;\r\n      }).join('');\r\n\r\n      container.innerHTML = attractionsHTML;\r\n  }\r\n</script>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/target/classes/frontend/views/attractions.html b/target/classes/frontend/views/attractions.html
+--- a/target/classes/frontend/views/attractions.html	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/target/classes/frontend/views/attractions.html	(date 1741449664559)
+@@ -2,149 +2,122 @@
+ <html lang="sv">
+ <head>
+   <meta charset="UTF-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-  <title>Sevärdheter</title>
++  <title>Platser att besöka - SkyExplorer</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+-  <style>
+-    body {
+-        background-color: #f8f9fa;
+-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+-        padding: 20px;
+-    }
+-
+-    .main-heading {
+-        font-size: 2.5rem;
+-        color: #2c3e50;
+-        margin-bottom: 1.5rem;
+-        text-align: center;
+-        font-weight: 600;
+-        text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+-    }
+-
+-    .attraction-card {
+-        border-radius: 10px;
+-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+-        transition: transform 0.3s, box-shadow 0.3s;
+-        margin-bottom: 20px;
+-        border: none;
+-        overflow: hidden;
+-        height: 100%;
+-    }
+-
+-    .attraction-card:hover {
+-        transform: translateY(-5px);
+-        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+-    }
+-
+-    .card-title {
+-        font-weight: 600;
+-        color: #3498db;
+-    }
+-
+-    .card-text {
+-        color: #555;
+-        font-size: 1rem;
+-    }
+-
+-    .category-badge {
+-        background-color: #3498db;
+-        color: white;
+-        padding: 4px 8px;
+-        border-radius: 4px;
+-        font-size: 0.8rem;
+-        display: inline-block;
+-        margin-bottom: 8px;
+-    }
+-
+-    .no-description {
+-        font-style: italic;
+-        color: #999;
+-    }
+-
+-    .container {
+-        padding: 20px;
+-        max-width: 1200px;
+-    }
+-
+-    .btn-primary {
+-        background-color: #3498db;
+-        border: none;
+-        padding: 8px 16px;
+-        border-radius: 5px;
+-        transition: background-color 0.3s;
+-    }
+-
+-    .btn-primary:hover {
+-        background-color: #2980b9;
+-    }
+-  </style>
++  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
++  <link rel="stylesheet" href="/src/frontend/style.css">
+ </head>
+ <body>
+ <div class="container">
+-  <h1 class="main-heading">Här är några platser du kan besöka</h1>
++  <h1>Platser att besöka i <span id="city-name"></span></h1>
++  <p class="intro-text">Här är några intressanta platser du kan besöka på din resa.</p>
++
++  <div id="loading">
++    <p>Laddar platser...</p>
++  </div>
+ 
+-  <div class="row" id="attractions-container">
++  <div id="attractions-container">
++  </div>
++
++  <div id="error-message" style="display: none;">
++    Ett fel uppstod vid hämtning av platser.
+   </div>
++
++  <p><a href="index.html" class="btn btn-primary">Tillbaka till sökning</a></p>
+ </div>
+ 
++<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script>
+-  document.addEventListener('DOMContentLoaded', function() {
++  $(document).ready(function() {
+       const urlParams = new URLSearchParams(window.location.search);
+-      const destination = urlParams.get('destination');
++      const city = urlParams.get('city');
+ 
+-      if (destination) {
+-          fetchAttractions(destination);
+-      } else {
+-          document.getElementById('attractions-container').innerHTML = '<p class="text-center">Ingen destination angiven.</p>';
++      if (!city) {
++          window.location.href = "index.html";
++          return;
+       }
++
++      $("#city-name").text(city);
++      loadAttractions(city);
+   });
+ 
+-  async function fetchAttractions(destination) {
+-      try {
+-          const response = await fetch(`/api/attractions?destination=${encodeURIComponent(destination)}`);
++  function loadAttractions(city) {
++      $("#loading").show();
++      $("#attractions-container").empty();
++      $("#error-message").hide();
+ 
+-          if (!response.ok) {
+-              throw new Error('Kunde inte hämta attraktioner');
+-          }
+-
+-          const attractions = await response.json();
+-          displayAttractions(attractions);
+-      } catch (error) {
+-          console.error('Fel vid hämtning av attraktioner:', error);
+-          document.getElementById('attractions-container').innerHTML =
+-              `<div class="col-12"><div class="alert alert-danger">Kunde inte hämta attraktioner: ${error.message}</div></div>`;
+-      }
++      const url = `http://localhost:7000/attractions?city=${encodeURIComponent(city)}`;
++
++      fetch(url)
++          .then(response => {
++              if (!response.ok) {
++                  return response.json().then(data => {
++                      throw new Error(data.error || "Kunde inte hämta platser");
++                  });
++              }
++              return response.json();
++          })
++          .then(attractions => {
++              displayAttractions(attractions);
++          })
++          .catch(error => {
++              console.error("Error:", error);
++              $("#error-message").show();
++          })
++          .finally(() => {
++              $("#loading").hide();
++          });
+   }
+ 
+   function displayAttractions(attractions) {
+-      const container = document.getElementById('attractions-container');
+-
+-      if (!attractions || attractions.length === 0) {
+-          container.innerHTML = '<p class="text-center">Inga attraktioner hittades för denna destination.</p>';
++      if (attractions.length === 0) {
++          $("#attractions-container").html('<p>Inga platser hittades för denna destination.</p>');
+           return;
+       }
+ 
+-      const attractionsHTML = attractions.map(attraction => {
+-          return `
+-          <div class="col-md-4 mb-4">
+-              <div class="card attraction-card">
+-                  <div class="card-body">
+-                      <span class="category-badge">${attraction.kinds.split(',')[0]}</span>
+-                      <h5 class="card-title">${attraction.name}</h5>
+-                      <p class="card-text">
+-                          ${attraction.wikipedia_extracts && attraction.wikipedia_extracts.text
+-                              ? attraction.wikipedia_extracts.text
+-                              : '<span class="no-description">Ingen beskrivning tillgänglig</span>'}
+-                      </p>
+-                      ${attraction.wikipedia
+-                          ? `<a href="${attraction.wikipedia}" target="_blank" class="btn btn-primary">Läs mer</a>`
+-                          : ''}
+-                  </div>
++      attractions.forEach(attraction => {
++          const categories = attraction.kinds.split(",");
++          let categoryHtml = '';
++
++          categories.slice(0, 2).forEach(category => {
++              const categoryName = formatCategory(category.trim());
++              categoryHtml += `<span class="category">${categoryName}</span>`;
++          });
++
++          let description = attraction.description || 'Ingen beskrivning tillgänglig.';
++
++          const item = `
++              <div class="attraction-item">
++                  <h2>${attraction.name}</h2>
++                  <div>${categoryHtml}</div>
++                  ${attraction.imageUrl ? `<img src="${attraction.imageUrl}" alt="${attraction.name}" class="attraction-image">` : ''}
++                  <p>${description}</p>
++                  <p><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=${attraction.latitude},${attraction.longitude}" target="_blank">Visa på karta</a></p>
+               </div>
+-          </div>`;
+-      }).join('');
++          `;
++
++          $("#attractions-container").append(item);
++      });
++  }
+ 
+-      container.innerHTML = attractionsHTML;
++  function formatCategory(category) {
++      const categoryMap = {
++          "cultural": "Kultur",
++          "natural": "Natur",
++          "amusements": "Nöjen",
++          "historic": "Historiskt",
++          "architecture": "Arkitektur",
++          "museums": "Museum",
++          "religion": "Religion",
++          "foods": "Mat & Dryck",
++          "shops": "Shopping",
++          "tourist_facilities": "Turistanläggning",
++          "interesting_places": "Intressant plats",
++          "monuments": "Monument",
++          "theatres_and_entertainments": "Teater & Underhållning"
++      };
++
++      return categoryMap[category] || category;
+   }
+ </script>
+ </body>
+Index: target/classes/frontend/views/api-docs.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"sv\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>SkyExplorer API Documentation</title>\r\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\r\n    <style>\r\n        body {\r\n            padding-top: 20px;\r\n            padding-bottom: 40px;\r\n        }\r\n        .api-section {\r\n            margin-bottom: 30px;\r\n        }\r\n        pre {\r\n            background-color: #f8f9fa;\r\n            padding: 15px;\r\n            border-radius: 5px;\r\n            overflow-x: auto;\r\n        }\r\n        .method-badge {\r\n            font-size: 14px;\r\n            padding: 5px 10px;\r\n            border-radius: 4px;\r\n            margin-right: 10px;\r\n        }\r\n        .get-badge {\r\n            background-color: #0d6efd;\r\n            color: white;\r\n        }\r\n        .tab-content {\r\n            padding: 20px;\r\n            border: 1px solid #dee2e6;\r\n            border-top: none;\r\n            border-radius: 0 0 5px 5px;\r\n        }\r\n        .nav-tabs {\r\n            margin-bottom: 0;\r\n        }\r\n        .table-responsive {\r\n            margin-bottom: 20px;\r\n        }\r\n        .accordion-button:not(.collapsed) {\r\n            background-color: #e7f1ff;\r\n            color: #0c63e4;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n<div class=\"container\">\r\n    <header class=\"d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom\">\r\n        <div class=\"col-md-3 mb-2 mb-md-0\">\r\n            <a href=\"index.html\" class=\"d-inline-flex link-body-emphasis text-decoration-none\">\r\n                <img src=\"/src/frontend/images/logo.jpeg\" alt=\"Logo\" width=\"100\" height=\"100\" class=\"d-block\">\r\n            </a>\r\n        </div>\r\n        <ul class=\"nav col-12 col-md-auto mb-2 justify-content-center mb-md-0\">\r\n            <li><a href=\"index.html\" class=\"nav-link px-2\">Home</a></li>\r\n            <li><a href=\"api-docs.html\" class=\"nav-link px-2 link-secondary\">API Docs</a></li>\r\n            <li><a href=\"faq.html\" class=\"nav-link px-2\">FAQs</a></li>\r\n            <li><a href=\"about.html\" class=\"nav-link px-2\">About</a></li>\r\n        </ul>\r\n    </header>\r\n\r\n    <main>\r\n        <h1 class=\"display-5 fw-bold mb-3\">SkyExplorer API Documentation</h1>\r\n        <p class=\"fs-5 text-muted mb-5\">API documentation for the SkyExplorer flight and weather search service</p>\r\n\r\n        <ul class=\"nav nav-tabs\" id=\"apiTabs\" role=\"tablist\">\r\n            <li class=\"nav-item\" role=\"presentation\">\r\n                <button class=\"nav-link active\" id=\"overview-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#overview\" type=\"button\" role=\"tab\" aria-controls=\"overview\" aria-selected=\"true\">Overview</button>\r\n            </li>\r\n            <li class=\"nav-item\" role=\"presentation\">\r\n                <button class=\"nav-link\" id=\"endpoints-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#endpoints\" type=\"button\" role=\"tab\" aria-controls=\"endpoints\" aria-selected=\"false\">Endpoints</button>\r\n            </li>\r\n            <li class=\"nav-item\" role=\"presentation\">\r\n                <button class=\"nav-link\" id=\"models-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#models\" type=\"button\" role=\"tab\" aria-controls=\"models\" aria-selected=\"false\">Data Models</button>\r\n            </li>\r\n            <li class=\"nav-item\" role=\"presentation\">\r\n                <button class=\"nav-link\" id=\"examples-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#examples\" type=\"button\" role=\"tab\" aria-controls=\"examples\" aria-selected=\"false\">Examples</button>\r\n            </li>\r\n        </ul>\r\n\r\n        <div class=\"tab-content\" id=\"apiTabsContent\">\r\n            <!-- Overview Tab -->\r\n            <div class=\"tab-pane fade show active\" id=\"overview\" role=\"tabpanel\" aria-labelledby=\"overview-tab\">\r\n                <div class=\"card\">\r\n                    <div class=\"card-header\">\r\n                        <h2 class=\"card-title\">SkyExplorer API Overview</h2>\r\n                        <p class=\"card-subtitle text-muted\">A RESTful API for searching flights and retrieving weather information</p>\r\n                    </div>\r\n                    <div class=\"card-body\">\r\n                        <p>\r\n                            The SkyExplorer API provides a unified interface for searching flights between locations and retrieving\r\n                            weather forecasts for destinations. It aggregates data from multiple sources including SkyScanner for\r\n                            flight information and Tomorrow.io for weather data.\r\n                        </p>\r\n\r\n                        <h3 class=\"mt-4\">Base URL</h3>\r\n                        <div class=\"bg-light p-3 rounded\">\r\n                            <code>http://localhost:7000</code>\r\n                        </div>\r\n\r\n                        <h3 class=\"mt-4\">Authentication</h3>\r\n                        <p>\r\n                            The API currently does not require authentication for requests.\r\n                        </p>\r\n\r\n                        <h3 class=\"mt-4\">Rate Limiting</h3>\r\n                        <p>\r\n                            There are no specific rate limits imposed by the SkyExplorer API itself, but be aware that the\r\n                            underlying external APIs (SkyScanner and Tomorrow.io) have their own rate limits.\r\n                        </p>\r\n\r\n                        <h3 class=\"mt-4\">Response Format</h3>\r\n                        <p>\r\n                            All API responses are returned in JSON format. Successful responses will contain the requested data,\r\n                            while error responses will include an error message and appropriate HTTP status code.\r\n                        </p>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <!-- Endpoints Tab -->\r\n            <div class=\"tab-pane fade\" id=\"endpoints\" role=\"tabpanel\" aria-labelledby=\"endpoints-tab\">\r\n                <div class=\"card\">\r\n                    <div class=\"card-header\">\r\n                        <h2 class=\"card-title\">API Endpoints</h2>\r\n                        <p class=\"card-subtitle text-muted\">Available endpoints and their parameters</p>\r\n                    </div>\r\n                    <div class=\"card-body\">\r\n                        <h3>\r\n                            <span class=\"method-badge get-badge\">GET</span> /search\r\n                        </h3>\r\n                        <p class=\"mt-2 mb-4\">\r\n                            Search for flights between locations and retrieve weather information for the destination.\r\n                        </p>\r\n\r\n                        <h4 class=\"mt-4\">Query Parameters</h4>\r\n                        <div class=\"table-responsive\">\r\n                            <table class=\"table table-striped\">\r\n                                <thead>\r\n                                <tr>\r\n                                    <th>Parameter</th>\r\n                                    <th>Type</th>\r\n                                    <th>Required</th>\r\n                                    <th>Description</th>\r\n                                </tr>\r\n                                </thead>\r\n                                <tbody>\r\n                                <tr>\r\n                                    <td>from</td>\r\n                                    <td>string</td>\r\n                                    <td>Yes</td>\r\n                                    <td>Departure city or airport code</td>\r\n                                </tr>\r\n                                <tr>\r\n                                    <td>destination</td>\r\n                                    <td>string</td>\r\n                                    <td>Yes</td>\r\n                                    <td>Destination city or airport code</td>\r\n                                </tr>\r\n                                <tr>\r\n                                    <td>departDate</td>\r\n                                    <td>string</td>\r\n                                    <td>Yes</td>\r\n                                    <td>Departure date in YYYY-MM-DD format</td>\r\n                                </tr>\r\n                                </tbody>\r\n                            </table>\r\n                        </div>\r\n\r\n                        <h4 class=\"mt-4\">Response</h4>\r\n                        <p>\r\n                            Returns a JSON object containing flight search results and weather forecast for the destination.\r\n                        </p>\r\n\r\n                        <h4 class=\"mt-4\">Response Fields</h4>\r\n                        <div class=\"table-responsive\">\r\n                            <table class=\"table table-striped\">\r\n                                <thead>\r\n                                <tr>\r\n                                    <th>Field</th>\r\n                                    <th>Type</th>\r\n                                    <th>Description</th>\r\n                                </tr>\r\n                                </thead>\r\n                                <tbody>\r\n                                <tr>\r\n                                    <td>flights</td>\r\n                                    <td>array</td>\r\n                                    <td>List of flight results matching the search criteria</td>\r\n                                </tr>\r\n                                <tr>\r\n                                    <td>weather</td>\r\n                                    <td>object</td>\r\n                                    <td>Weather forecast data for the destination</td>\r\n                                </tr>\r\n                                </tbody>\r\n                            </table>\r\n                        </div>\r\n\r\n                        <h4 class=\"mt-4\">Status Codes</h4>\r\n                        <div class=\"table-responsive\">\r\n                            <table class=\"table table-striped\">\r\n                                <thead>\r\n                                <tr>\r\n                                    <th>Code</th>\r\n                                    <th>Description</th>\r\n                                </tr>\r\n                                </thead>\r\n                                <tbody>\r\n                                <tr>\r\n                                    <td>200</td>\r\n                                    <td>Success - Returns flight and weather data</td>\r\n                                </tr>\r\n                                <tr>\r\n                                    <td>400</td>\r\n                                    <td>Bad Request - Missing or invalid parameters</td>\r\n                                </tr>\r\n                                <tr>\r\n                                    <td>404</td>\r\n                                    <td>Not Found - No flights found for the specified route</td>\r\n                                </tr>\r\n                                <tr>\r\n                                    <td>500</td>\r\n                                    <td>Internal Server Error - Error occurred while processing the request</td>\r\n                                </tr>\r\n                                </tbody>\r\n                            </table>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <!-- Models Tab -->\r\n            <div class=\"tab-pane fade\" id=\"models\" role=\"tabpanel\" aria-labelledby=\"models-tab\">\r\n                <div class=\"accordion\" id=\"modelsAccordion\">\r\n                    <!-- FlightResult Model -->\r\n                    <div class=\"accordion-item\">\r\n                        <h2 class=\"accordion-header\" id=\"flightResultHeading\">\r\n                            <button class=\"accordion-button\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#flightResultCollapse\" aria-expanded=\"true\" aria-controls=\"flightResultCollapse\">\r\n                                <strong>FlightResult</strong> <span class=\"badge bg-primary ms-2\">Response Model</span>\r\n                            </button>\r\n                        </h2>\r\n                        <div id=\"flightResultCollapse\" class=\"accordion-collapse collapse show\" aria-labelledby=\"flightResultHeading\" data-bs-parent=\"#modelsAccordion\">\r\n                            <div class=\"accordion-body\">\r\n                                <p>Represents a single flight search result with details about the flight.</p>\r\n\r\n                                <div class=\"table-responsive\">\r\n                                    <table class=\"table table-striped\">\r\n                                        <thead>\r\n                                        <tr>\r\n                                            <th>Field</th>\r\n                                            <th>Type</th>\r\n                                            <th>Description</th>\r\n                                        </tr>\r\n                                        </thead>\r\n                                        <tbody>\r\n                                        <tr>\r\n                                            <td>id</td>\r\n                                            <td>string</td>\r\n                                            <td>Unique identifier for the flight</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>price</td>\r\n                                            <td>number</td>\r\n                                            <td>The price of the flight</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>formattedPrice</td>\r\n                                            <td>string</td>\r\n                                            <td>Formatted price with currency symbol</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>departureCity</td>\r\n                                            <td>string</td>\r\n                                            <td>City of departure</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>arrivalCity</td>\r\n                                            <td>string</td>\r\n                                            <td>City of arrival</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>departureTime</td>\r\n                                            <td>string</td>\r\n                                            <td>Departure time in ISO format</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>arrivalTime</td>\r\n                                            <td>string</td>\r\n                                            <td>Arrival time in ISO format</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>duration</td>\r\n                                            <td>number</td>\r\n                                            <td>Flight duration in minutes</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>stops</td>\r\n                                            <td>number</td>\r\n                                            <td>Number of stops</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>airline</td>\r\n                                            <td>string</td>\r\n                                            <td>Name of the airline</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>departureAirport</td>\r\n                                            <td>string</td>\r\n                                            <td>Name of the departure airport</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>arrivalAirport</td>\r\n                                            <td>string</td>\r\n                                            <td>Name of the arrival airport</td>\r\n                                        </tr>\r\n                                        </tbody>\r\n                                    </table>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <!-- WeatherData Model -->\r\n                    <div class=\"accordion-item\">\r\n                        <h2 class=\"accordion-header\" id=\"weatherDataHeading\">\r\n                            <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#weatherDataCollapse\" aria-expanded=\"false\" aria-controls=\"weatherDataCollapse\">\r\n                                <strong>WeatherData</strong> <span class=\"badge bg-primary ms-2\">Response Model</span>\r\n                            </button>\r\n                        </h2>\r\n                        <div id=\"weatherDataCollapse\" class=\"accordion-collapse collapse\" aria-labelledby=\"weatherDataHeading\" data-bs-parent=\"#modelsAccordion\">\r\n                            <div class=\"accordion-body\">\r\n                                <p>Represents weather forecast data for a location.</p>\r\n\r\n                                <div class=\"table-responsive\">\r\n                                    <table class=\"table table-striped\">\r\n                                        <thead>\r\n                                        <tr>\r\n                                            <th>Field</th>\r\n                                            <th>Type</th>\r\n                                            <th>Description</th>\r\n                                        </tr>\r\n                                        </thead>\r\n                                        <tbody>\r\n                                        <tr>\r\n                                            <td>timelines</td>\r\n                                            <td>object</td>\r\n                                            <td>Contains weather timelines</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>timelines.hourly</td>\r\n                                            <td>array</td>\r\n                                            <td>Hourly weather forecast data</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>timelines.hourly[].time</td>\r\n                                            <td>string</td>\r\n                                            <td>Timestamp for the forecast in ISO format</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>timelines.hourly[].values</td>\r\n                                            <td>object</td>\r\n                                            <td>Weather values for this time period</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>timelines.hourly[].values.temperature</td>\r\n                                            <td>number</td>\r\n                                            <td>Temperature in Celsius</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>timelines.hourly[].values.weatherCode</td>\r\n                                            <td>number</td>\r\n                                            <td>Code representing weather conditions</td>\r\n                                        </tr>\r\n                                        </tbody>\r\n                                    </table>\r\n                                </div>\r\n\r\n                                <h4 class=\"mt-4\">Weather Codes</h4>\r\n                                <div class=\"table-responsive\">\r\n                                    <table class=\"table table-striped\">\r\n                                        <thead>\r\n                                        <tr>\r\n                                            <th>Code</th>\r\n                                            <th>Description</th>\r\n                                        </tr>\r\n                                        </thead>\r\n                                        <tbody>\r\n                                        <tr>\r\n                                            <td>1000</td>\r\n                                            <td>Clear, Sunny</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>1100</td>\r\n                                            <td>Mostly Clear</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>1101</td>\r\n                                            <td>Partly Cloudy</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>1102</td>\r\n                                            <td>Mostly Cloudy</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>1001</td>\r\n                                            <td>Cloudy</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>4000, 4200</td>\r\n                                            <td>Light Rain, Drizzle</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>4001, 4201</td>\r\n                                            <td>Rain, Heavy Rain</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>5000, 5100</td>\r\n                                            <td>Snow, Light Snow</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>5101</td>\r\n                                            <td>Heavy Snow</td>\r\n                                        </tr>\r\n                                        <tr>\r\n                                            <td>8000</td>\r\n                                            <td>Thunderstorm</td>\r\n                                        </tr>\r\n                                        </tbody>\r\n                                    </table>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <!-- Examples Tab -->\r\n            <div class=\"tab-pane fade\" id=\"examples\" role=\"tabpanel\" aria-labelledby=\"examples-tab\">\r\n                <div class=\"card\">\r\n                    <div class=\"card-header\">\r\n                        <h2 class=\"card-title\">Example Requests and Responses</h2>\r\n                        <p class=\"card-subtitle text-muted\">Sample API calls and their responses</p>\r\n                    </div>\r\n                    <div class=\"card-body\">\r\n                        <h3>Example Request</h3>\r\n                        <pre><code>GET http://localhost:7000/search?from=Stockholm&destination=London&departDate=2023-12-25</code></pre>\r\n\r\n                        <h3 class=\"mt-4\">Example Response</h3>\r\n                        <pre><code>{\r\n  \"flights\": [\r\n    {\r\n      \"price\": 299.99,\r\n      \"formattedPrice\": \"$299.99\",\r\n      \"departureCity\": \"Stockholm\",\r\n      \"arrivalCity\": \"London\",\r\n      \"departureTime\": \"2023-12-25T08:30:00\",\r\n      \"arrivalTime\": \"2023-12-25T10:45:00\",\r\n      \"duration\": 135,\r\n      \"stops\": 0,\r\n      \"airline\": \"SAS\",\r\n      \"departureAirport\": \"Stockholm Arlanda Airport\",\r\n      \"arrivalAirport\": \"London Heathrow Airport\"\r\n    },\r\n    {\r\n      \"price\": 349.50,\r\n      \"formattedPrice\": \"$349.50\",\r\n      \"departureCity\": \"Stockholm\",\r\n      \"arrivalCity\": \"London\",\r\n      \"departureTime\": \"2023-12-25T12:15:00\",\r\n      \"arrivalTime\": \"2023-12-25T14:30:00\",\r\n      \"duration\": 135,\r\n      \"stops\": 0,\r\n      \"airline\": \"British Airways\",\r\n      \"departureAirport\": \"Stockholm Arlanda Airport\",\r\n      \"arrivalAirport\": \"London Heathrow Airport\"\r\n    }\r\n  ],\r\n  \"weather\": {\r\n    \"timelines\": {\r\n      \"hourly\": [\r\n        {\r\n          \"time\": \"2023-12-25T00:00:00Z\",\r\n          \"values\": {\r\n            \"temperature\": 5.2,\r\n            \"weatherCode\": 1001\r\n          }\r\n        },\r\n        {\r\n          \"time\": \"2023-12-25T01:00:00Z\",\r\n          \"values\": {\r\n            \"temperature\": 4.8,\r\n            \"weatherCode\": 1001\r\n          }\r\n        },\r\n        {\r\n          \"time\": \"2023-12-25T02:00:00Z\",\r\n          \"values\": {\r\n            \"temperature\": 4.5,\r\n            \"weatherCode\": 1101\r\n          }\r\n        }\r\n        // Additional hourly forecasts...\r\n      ]\r\n    }\r\n  }\r\n}</code></pre>\r\n\r\n                        <h3 class=\"mt-4\">Error Response Example</h3>\r\n                        <pre><code>{\r\n  \"error\": \"Failed to search flights. Status code: 404\",\r\n  \"message\": \"No flights found for the specified route and date.\"\r\n}</code></pre>\r\n\r\n                        <h3 class=\"mt-4\">Using the API with JavaScript</h3>\r\n                        <pre><code>// Example of how to call the API using JavaScript fetch\r\nasync function searchFlightsAndWeather() {\r\n  const departureCity = \"Stockholm\";\r\n  const destinationCity = \"London\";\r\n  const departureDate = \"2023-12-25\";\r\n\r\n  try {\r\n    const url = `http://localhost:7000/search?from=${encodeURIComponent(departureCity)}&destination=${encodeURIComponent(destinationCity)}&departDate=${encodeURIComponent(departureDate)}`;\r\n\r\n    const response = await fetch(url);\r\n    if (!response.ok) {\r\n      throw new Error(\"Network error: \" + response.status);\r\n    }\r\n\r\n    const data = await response.json();\r\n    console.log(\"Flights:\", data.flights);\r\n    console.log(\"Weather:\", data.weather);\r\n\r\n    // Process the data...\r\n  } catch (error) {\r\n    console.error(\"Error calling API:\", error);\r\n  }\r\n}</code></pre>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </main>\r\n\r\n    <footer class=\"py-3 my-4\">\r\n        <ul class=\"nav justify-content-center border-bottom pb-3 mb-3\">\r\n            <li class=\"nav-item\"><a href=\"faq.html\" class=\"nav-link px-2 text-body-secondary\">FAQs</a></li>\r\n            <li class=\"nav-item\"><a href=\"about.html\" class=\"nav-link px-2 text-body-secondary\">About</a></li>\r\n        </ul>\r\n        <p class=\"text-center text-body-secondary\">&copy; 2024 SkyExplorer, Inc</p>\r\n    </footer>\r\n</div>\r\n\r\n<script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>\r\n<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js\"></script>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/target/classes/frontend/views/api-docs.html b/target/classes/frontend/views/api-docs.html
+--- a/target/classes/frontend/views/api-docs.html	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/target/classes/frontend/views/api-docs.html	(date 1741449664557)
+@@ -2,455 +2,311 @@
+ <html lang="sv">
+ <head>
+     <meta charset="UTF-8">
+-    <title>SkyExplorer API Documentation</title>
+-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+-    <style>
+-        body {
+-            padding-top: 20px;
+-            padding-bottom: 40px;
+-        }
+-        .api-section {
+-            margin-bottom: 30px;
+-        }
+-        pre {
+-            background-color: #f8f9fa;
+-            padding: 15px;
+-            border-radius: 5px;
+-            overflow-x: auto;
+-        }
+-        .method-badge {
+-            font-size: 14px;
+-            padding: 5px 10px;
+-            border-radius: 4px;
+-            margin-right: 10px;
+-        }
+-        .get-badge {
+-            background-color: #0d6efd;
+-            color: white;
+-        }
+-        .tab-content {
+-            padding: 20px;
+-            border: 1px solid #dee2e6;
+-            border-top: none;
+-            border-radius: 0 0 5px 5px;
+-        }
+-        .nav-tabs {
+-            margin-bottom: 0;
+-        }
+-        .table-responsive {
+-            margin-bottom: 20px;
+-        }
+-        .accordion-button:not(.collapsed) {
+-            background-color: #e7f1ff;
+-            color: #0c63e4;
+-        }
+-    </style>
++    <title>SkyExplorer API Dokumentation</title>
++    <link rel="stylesheet" href="/src/frontend/style.css">
++
+ </head>
+ <body>
+ <div class="container">
+-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+-        <div class="col-md-3 mb-2 mb-md-0">
+-            <a href="index.html" class="d-inline-flex link-body-emphasis text-decoration-none">
+-                <img src="/src/frontend/images/logo.jpeg" alt="Logo" width="100" height="100" class="d-block">
+-            </a>
+-        </div>
+-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+-            <li><a href="index.html" class="nav-link px-2">Home</a></li>
+-            <li><a href="api-docs.html" class="nav-link px-2 link-secondary">API Docs</a></li>
+-            <li><a href="faq.html" class="nav-link px-2">FAQs</a></li>
+-            <li><a href="about.html" class="nav-link px-2">About</a></li>
+-        </ul>
+-    </header>
+-
+-    <main>
+-        <h1 class="display-5 fw-bold mb-3">SkyExplorer API Documentation</h1>
+-        <p class="fs-5 text-muted mb-5">API documentation for the SkyExplorer flight and weather search service</p>
++    <h1>SkyExplorer API Dokumentation</h1>
++    <p>Detta är dokumentationen för SkyExplorer API:et som används för att söka flyg, väder och sevärdheter.</p>
+ 
+-        <ul class="nav nav-tabs" id="apiTabs" role="tablist">
+-            <li class="nav-item" role="presentation">
+-                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+-            </li>
+-            <li class="nav-item" role="presentation">
+-                <button class="nav-link" id="endpoints-tab" data-bs-toggle="tab" data-bs-target="#endpoints" type="button" role="tab" aria-controls="endpoints" aria-selected="false">Endpoints</button>
+-            </li>
+-            <li class="nav-item" role="presentation">
+-                <button class="nav-link" id="models-tab" data-bs-toggle="tab" data-bs-target="#models" type="button" role="tab" aria-controls="models" aria-selected="false">Data Models</button>
+-            </li>
+-            <li class="nav-item" role="presentation">
+-                <button class="nav-link" id="examples-tab" data-bs-toggle="tab" data-bs-target="#examples" type="button" role="tab" aria-controls="examples" aria-selected="false">Examples</button>
+-            </li>
+-        </ul>
+-
+-        <div class="tab-content" id="apiTabsContent">
+-            <!-- Overview Tab -->
+-            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+-                <div class="card">
+-                    <div class="card-header">
+-                        <h2 class="card-title">SkyExplorer API Overview</h2>
+-                        <p class="card-subtitle text-muted">A RESTful API for searching flights and retrieving weather information</p>
+-                    </div>
+-                    <div class="card-body">
+-                        <p>
+-                            The SkyExplorer API provides a unified interface for searching flights between locations and retrieving
+-                            weather forecasts for destinations. It aggregates data from multiple sources including SkyScanner for
+-                            flight information and Tomorrow.io for weather data.
+-                        </p>
+-
+-                        <h3 class="mt-4">Base URL</h3>
+-                        <div class="bg-light p-3 rounded">
+-                            <code>http://localhost:7000</code>
+-                        </div>
+-
+-                        <h3 class="mt-4">Authentication</h3>
+-                        <p>
+-                            The API currently does not require authentication for requests.
+-                        </p>
+-
+-                        <h3 class="mt-4">Rate Limiting</h3>
+-                        <p>
+-                            There are no specific rate limits imposed by the SkyExplorer API itself, but be aware that the
+-                            underlying external APIs (SkyScanner and Tomorrow.io) have their own rate limits.
+-                        </p>
+-
+-                        <h3 class="mt-4">Response Format</h3>
+-                        <p>
+-                            All API responses are returned in JSON format. Successful responses will contain the requested data,
+-                            while error responses will include an error message and appropriate HTTP status code.
+-                        </p>
+-                    </div>
+-                </div>
+-            </div>
++    <div class="section">
++        <h2>Översikt</h2>
++        <p>
++            Vårt API låter dig söka efter flyg mellan olika platser, få väderinformation för destinationen,
++            samt hitta intressanta sevärdheter att besöka på din destination.
++        </p>
++        <p><strong>Bas-URL:</strong> <span class="endpoint">http://localhost:7000</span></p>
++    </div>
+ 
+-            <!-- Endpoints Tab -->
+-            <div class="tab-pane fade" id="endpoints" role="tabpanel" aria-labelledby="endpoints-tab">
+-                <div class="card">
+-                    <div class="card-header">
+-                        <h2 class="card-title">API Endpoints</h2>
+-                        <p class="card-subtitle text-muted">Available endpoints and their parameters</p>
+-                    </div>
+-                    <div class="card-body">
+-                        <h3>
+-                            <span class="method-badge get-badge">GET</span> /search
+-                        </h3>
+-                        <p class="mt-2 mb-4">
+-                            Search for flights between locations and retrieve weather information for the destination.
+-                        </p>
++    <div class="section">
++        <h2>Endpoints</h2>
+ 
+-                        <h4 class="mt-4">Query Parameters</h4>
+-                        <div class="table-responsive">
+-                            <table class="table table-striped">
+-                                <thead>
+-                                <tr>
+-                                    <th>Parameter</th>
+-                                    <th>Type</th>
+-                                    <th>Required</th>
+-                                    <th>Description</th>
+-                                </tr>
+-                                </thead>
+-                                <tbody>
+-                                <tr>
+-                                    <td>from</td>
+-                                    <td>string</td>
+-                                    <td>Yes</td>
+-                                    <td>Departure city or airport code</td>
+-                                </tr>
+-                                <tr>
+-                                    <td>destination</td>
+-                                    <td>string</td>
+-                                    <td>Yes</td>
+-                                    <td>Destination city or airport code</td>
+-                                </tr>
+-                                <tr>
+-                                    <td>departDate</td>
+-                                    <td>string</td>
+-                                    <td>Yes</td>
+-                                    <td>Departure date in YYYY-MM-DD format</td>
+-                                </tr>
+-                                </tbody>
+-                            </table>
+-                        </div>
+-
+-                        <h4 class="mt-4">Response</h4>
+-                        <p>
+-                            Returns a JSON object containing flight search results and weather forecast for the destination.
+-                        </p>
+-
+-                        <h4 class="mt-4">Response Fields</h4>
+-                        <div class="table-responsive">
+-                            <table class="table table-striped">
+-                                <thead>
+-                                <tr>
+-                                    <th>Field</th>
+-                                    <th>Type</th>
+-                                    <th>Description</th>
+-                                </tr>
+-                                </thead>
+-                                <tbody>
+-                                <tr>
+-                                    <td>flights</td>
+-                                    <td>array</td>
+-                                    <td>List of flight results matching the search criteria</td>
+-                                </tr>
+-                                <tr>
+-                                    <td>weather</td>
+-                                    <td>object</td>
+-                                    <td>Weather forecast data for the destination</td>
+-                                </tr>
+-                                </tbody>
+-                            </table>
+-                        </div>
++        <h3><span class="method get">GET</span> <span class="endpoint">/search</span></h3>
++        <p>Söker efter flyg och hämtar väderinformation för destinationen.</p>
++
++        <h4>Parametrar:</h4>
++        <table>
++            <tr>
++                <th>Parameter</th>
++                <th>Typ</th>
++                <th>Beskrivning</th>
++                <th>Obligatorisk</th>
++            </tr>
++            <tr>
++                <td>from</td>
++                <td>string</td>
++                <td>Avresestad eller flygplatskod</td>
++                <td><span class="required">Ja</span></td>
++            </tr>
++            <tr>
++                <td>destination</td>
++                <td>string</td>
++                <td>Destinationsstad eller flygplatskod</td>
++                <td><span class="required">Ja</span></td>
++            </tr>
++            <tr>
++                <td>departDate</td>
++                <td>string</td>
++                <td>Avresedatum i formatet ÅÅÅÅ-MM-DD</td>
++                <td><span class="required">Ja</span></td>
++            </tr>
++            <tr>
++                <td>returnDate</td>
++                <td>string</td>
++                <td>Returresedatum i formatet ÅÅÅÅ-MM-DD</td>
++                <td><span class="optional">Nej</span></td>
++            </tr>
++        </table>
++
++        <h4>Svar:</h4>
++        <p>API:et returnerar ett JSON-objekt med flygresultat och väderprognos.</p>
+ 
+-                        <h4 class="mt-4">Status Codes</h4>
+-                        <div class="table-responsive">
+-                            <table class="table table-striped">
+-                                <thead>
+-                                <tr>
+-                                    <th>Code</th>
+-                                    <th>Description</th>
+-                                </tr>
+-                                </thead>
+-                                <tbody>
+-                                <tr>
+-                                    <td>200</td>
+-                                    <td>Success - Returns flight and weather data</td>
+-                                </tr>
+-                                <tr>
+-                                    <td>400</td>
+-                                    <td>Bad Request - Missing or invalid parameters</td>
+-                                </tr>
+-                                <tr>
+-                                    <td>404</td>
+-                                    <td>Not Found - No flights found for the specified route</td>
+-                                </tr>
+-                                <tr>
+-                                    <td>500</td>
+-                                    <td>Internal Server Error - Error occurred while processing the request</td>
+-                                </tr>
+-                                </tbody>
+-                            </table>
+-                        </div>
+-                    </div>
+-                </div>
+-            </div>
++        <h3><span class="method get">GET</span> <span class="endpoint">/attractions</span></h3>
++        <p>Hämtar sevärdheter och intressanta platser för en specifik destination.</p>
++
++        <h4>Parametrar:</h4>
++        <table>
++            <tr>
++                <th>Parameter</th>
++                <th>Typ</th>
++                <th>Beskrivning</th>
++                <th>Obligatorisk</th>
++            </tr>
++            <tr>
++                <td>city</td>
++                <td>string</td>
++                <td>Staden eller platsen att hitta sevärdheter för</td>
++                <td><span class="required">Ja</span></td>
++            </tr>
++        </table>
++
++        <h4>Svar:</h4>
++        <p>API:et returnerar en array av sevärdheter med information som namn, beskrivning, kategori och plats.</p>
++    </div>
+ 
+-            <!-- Models Tab -->
+-            <div class="tab-pane fade" id="models" role="tabpanel" aria-labelledby="models-tab">
+-                <div class="accordion" id="modelsAccordion">
+-                    <!-- FlightResult Model -->
+-                    <div class="accordion-item">
+-                        <h2 class="accordion-header" id="flightResultHeading">
+-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flightResultCollapse" aria-expanded="true" aria-controls="flightResultCollapse">
+-                                <strong>FlightResult</strong> <span class="badge bg-primary ms-2">Response Model</span>
+-                            </button>
+-                        </h2>
+-                        <div id="flightResultCollapse" class="accordion-collapse collapse show" aria-labelledby="flightResultHeading" data-bs-parent="#modelsAccordion">
+-                            <div class="accordion-body">
+-                                <p>Represents a single flight search result with details about the flight.</p>
++    <div class="section">
++        <h2>Datamodeller</h2>
+ 
+-                                <div class="table-responsive">
+-                                    <table class="table table-striped">
+-                                        <thead>
+-                                        <tr>
+-                                            <th>Field</th>
+-                                            <th>Type</th>
+-                                            <th>Description</th>
+-                                        </tr>
+-                                        </thead>
+-                                        <tbody>
+-                                        <tr>
+-                                            <td>id</td>
+-                                            <td>string</td>
+-                                            <td>Unique identifier for the flight</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>price</td>
+-                                            <td>number</td>
+-                                            <td>The price of the flight</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>formattedPrice</td>
+-                                            <td>string</td>
+-                                            <td>Formatted price with currency symbol</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>departureCity</td>
+-                                            <td>string</td>
+-                                            <td>City of departure</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>arrivalCity</td>
+-                                            <td>string</td>
+-                                            <td>City of arrival</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>departureTime</td>
+-                                            <td>string</td>
+-                                            <td>Departure time in ISO format</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>arrivalTime</td>
+-                                            <td>string</td>
+-                                            <td>Arrival time in ISO format</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>duration</td>
+-                                            <td>number</td>
+-                                            <td>Flight duration in minutes</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>stops</td>
+-                                            <td>number</td>
+-                                            <td>Number of stops</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>airline</td>
+-                                            <td>string</td>
+-                                            <td>Name of the airline</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>departureAirport</td>
+-                                            <td>string</td>
+-                                            <td>Name of the departure airport</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>arrivalAirport</td>
+-                                            <td>string</td>
+-                                            <td>Name of the arrival airport</td>
+-                                        </tr>
+-                                        </tbody>
+-                                    </table>
+-                                </div>
+-                            </div>
+-                        </div>
+-                    </div>
++        <h3>FlightResult</h3>
++        <p>Representerar ett flygresultat.</p>
++        <table>
++            <tr>
++                <th>Fält</th>
++                <th>Typ</th>
++                <th>Beskrivning</th>
++            </tr>
++            <tr>
++                <td>price</td>
++                <td>number</td>
++                <td>Priset för flygresan</td>
++            </tr>
++            <tr>
++                <td>formattedPrice</td>
++                <td>string</td>
++                <td>Formaterat pris med valutasymbol</td>
++            </tr>
++            <tr>
++                <td>departureCity</td>
++                <td>string</td>
++                <td>Avresestad</td>
++            </tr>
++            <tr>
++                <td>arrivalCity</td>
++                <td>string</td>
++                <td>Ankomststad</td>
++            </tr>
++            <tr>
++                <td>departureTime</td>
++                <td>string</td>
++                <td>Avresetid</td>
++            </tr>
++            <tr>
++                <td>arrivalTime</td>
++                <td>string</td>
++                <td>Ankomsttid</td>
++            </tr>
++            <tr>
++                <td>duration</td>
++                <td>number</td>
++                <td>Flygtid i minuter</td>
++            </tr>
++            <tr>
++                <td>stops</td>
++                <td>number</td>
++                <td>Antal stopp</td>
++            </tr>
++            <tr>
++                <td>airline</td>
++                <td>string</td>
++                <td>Flygbolagets namn</td>
++            </tr>
++            <tr>
++                <td>departureAirport</td>
++                <td>string</td>
++                <td>Avreseflygplats</td>
++            </tr>
++            <tr>
++                <td>arrivalAirport</td>
++                <td>string</td>
++                <td>Ankomstflygplats</td>
++            </tr>
++        </table>
+ 
+-                    <!-- WeatherData Model -->
+-                    <div class="accordion-item">
+-                        <h2 class="accordion-header" id="weatherDataHeading">
+-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#weatherDataCollapse" aria-expanded="false" aria-controls="weatherDataCollapse">
+-                                <strong>WeatherData</strong> <span class="badge bg-primary ms-2">Response Model</span>
+-                            </button>
+-                        </h2>
+-                        <div id="weatherDataCollapse" class="accordion-collapse collapse" aria-labelledby="weatherDataHeading" data-bs-parent="#modelsAccordion">
+-                            <div class="accordion-body">
+-                                <p>Represents weather forecast data for a location.</p>
+-
+-                                <div class="table-responsive">
+-                                    <table class="table table-striped">
+-                                        <thead>
+-                                        <tr>
+-                                            <th>Field</th>
+-                                            <th>Type</th>
+-                                            <th>Description</th>
+-                                        </tr>
+-                                        </thead>
+-                                        <tbody>
+-                                        <tr>
+-                                            <td>timelines</td>
+-                                            <td>object</td>
+-                                            <td>Contains weather timelines</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>timelines.hourly</td>
+-                                            <td>array</td>
+-                                            <td>Hourly weather forecast data</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>timelines.hourly[].time</td>
+-                                            <td>string</td>
+-                                            <td>Timestamp for the forecast in ISO format</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>timelines.hourly[].values</td>
+-                                            <td>object</td>
+-                                            <td>Weather values for this time period</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>timelines.hourly[].values.temperature</td>
+-                                            <td>number</td>
+-                                            <td>Temperature in Celsius</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>timelines.hourly[].values.weatherCode</td>
+-                                            <td>number</td>
+-                                            <td>Code representing weather conditions</td>
+-                                        </tr>
+-                                        </tbody>
+-                                    </table>
+-                                </div>
++        <h3>WeatherData</h3>
++        <p>Representerar väderprognos för en plats.</p>
++        <table>
++            <tr>
++                <th>Fält</th>
++                <th>Typ</th>
++                <th>Beskrivning</th>
++            </tr>
++            <tr>
++                <td>timelines.hourly</td>
++                <td>array</td>
++                <td>Timvis väderprognos</td>
++            </tr>
++            <tr>
++                <td>timelines.hourly[].time</td>
++                <td>string</td>
++                <td>Tidpunkt för prognosen</td>
++            </tr>
++            <tr>
++                <td>timelines.hourly[].values.temperature</td>
++                <td>number</td>
++                <td>Temperatur i Celsius</td>
++            </tr>
++            <tr>
++                <td>timelines.hourly[].values.weatherCode</td>
++                <td>number</td>
++                <td>Kod för väderförhållanden</td>
++            </tr>
++        </table>
+ 
+-                                <h4 class="mt-4">Weather Codes</h4>
+-                                <div class="table-responsive">
+-                                    <table class="table table-striped">
+-                                        <thead>
+-                                        <tr>
+-                                            <th>Code</th>
+-                                            <th>Description</th>
+-                                        </tr>
+-                                        </thead>
+-                                        <tbody>
+-                                        <tr>
+-                                            <td>1000</td>
+-                                            <td>Clear, Sunny</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>1100</td>
+-                                            <td>Mostly Clear</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>1101</td>
+-                                            <td>Partly Cloudy</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>1102</td>
+-                                            <td>Mostly Cloudy</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>1001</td>
+-                                            <td>Cloudy</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>4000, 4200</td>
+-                                            <td>Light Rain, Drizzle</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>4001, 4201</td>
+-                                            <td>Rain, Heavy Rain</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>5000, 5100</td>
+-                                            <td>Snow, Light Snow</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>5101</td>
+-                                            <td>Heavy Snow</td>
+-                                        </tr>
+-                                        <tr>
+-                                            <td>8000</td>
+-                                            <td>Thunderstorm</td>
+-                                        </tr>
+-                                        </tbody>
+-                                    </table>
+-                                </div>
+-                            </div>
+-                        </div>
+-                    </div>
+-                </div>
+-            </div>
++        <h3>Attraction</h3>
++        <p>Representerar en sevärdhet eller intressant plats.</p>
++        <table>
++            <tr>
++                <th>Fält</th>
++                <th>Typ</th>
++                <th>Beskrivning</th>
++            </tr>
++            <tr>
++                <td>name</td>
++                <td>string</td>
++                <td>Namnet på sevärdheten</td>
++            </tr>
++            <tr>
++                <td>kinds</td>
++                <td>string</td>
++                <td>Kommaseparerad lista med kategorier (t.ex. "museum,cultural")</td>
++            </tr>
++            <tr>
++                <td>description</td>
++                <td>string</td>
++                <td>Beskrivning av sevärdheten (kan vara null)</td>
++            </tr>
++            <tr>
++                <td>latitude</td>
++                <td>number</td>
++                <td>Latitud för platsens position</td>
++            </tr>
++            <tr>
++                <td>longitude</td>
++                <td>number</td>
++                <td>Longitud för platsens position</td>
++            </tr>
++            <tr>
++                <td>imageUrl</td>
++                <td>string</td>
++                <td>URL till en bild av sevärdheten (kan vara null)</td>
++            </tr>
++        </table>
++    </div>
++
++    <div class="section">
++        <h2>Felhantering</h2>
++        <p>API:et returnerar följande HTTP-statuskoder:</p>
++        <table>
++            <tr>
++                <th>Statuskod</th>
++                <th>Beskrivning</th>
++            </tr>
++            <tr>
++                <td>200</td>
++                <td>OK - Förfrågan lyckades</td>
++            </tr>
++            <tr>
++                <td>400</td>
++                <td>Bad Request - Felaktiga parametrar</td>
++            </tr>
++            <tr>
++                <td>404</td>
++                <td>Not Found - Inga flyg eller sevärdheter hittades</td>
++            </tr>
++            <tr>
++                <td>500</td>
++                <td>Internal Server Error - Serverfel</td>
++            </tr>
++        </table>
++
++        <h3>Felmeddelanden</h3>
++        <p>När ett fel uppstår returnerar API:et ett JSON-objekt med information om felet:</p>
++        <pre>{
++  "error": "Felmeddelande"
++}</pre>
++
++        <p>För valideringsfel vid /search-endpointen kan svaret innehålla detaljerad information:</p>
++        <pre>{
++  "error": "Saknar obligatoriska parametrar",
++  "details": {
++    "from": "Avreseplats måste anges",
++    "destination": "Destination måste anges",
++    "departDate": "Avresedatum måste anges"
++  }
++}</pre>
++
++        <h3>Exempel på felsvar:</h3>
++        <pre>{
++  "error": "Inga flygdata hittades för den angivna rutten. Kontrollera stadsnamnen."
++}</pre>
+ 
+-            <!-- Examples Tab -->
+-            <div class="tab-pane fade" id="examples" role="tabpanel" aria-labelledby="examples-tab">
+-                <div class="card">
+-                    <div class="card-header">
+-                        <h2 class="card-title">Example Requests and Responses</h2>
+-                        <p class="card-subtitle text-muted">Sample API calls and their responses</p>
+-                    </div>
+-                    <div class="card-body">
+-                        <h3>Example Request</h3>
+-                        <pre><code>GET http://localhost:7000/search?from=Stockholm&destination=London&departDate=2023-12-25</code></pre>
++        <pre>{
++  "error": "Fel vid hämtning av attraktioner: Fel vid hämtning av koordinater. Statuskod: 404"
++}</pre>
++
++        <h3>Hantering av fel i klienten</h3>
++        <p>Exempel på hur man kan hantera fel i JavaScript:</p>
++        <pre>fetch('http://localhost:7000/search?from=Stockholm&destination=London&departDate=2023-12-25')
++  .then(response => {
++    if (!response.ok) {
++      return response.json().then(data => {
++        throw new Error(data.error || "Ett fel uppstod");
++      });
++    }
++    return response.json();
++  })
++  .then(data => {
++    // Hantera data
++    console.log(data);
++  })
++  .catch(error => {
++    // Visa felmeddelande för användaren
++    console.error("Error:", error);
++    document.getElementById('error-message').textContent = error.message;
++    document.getElementById('error-message').style.display = 'block';
++  });</pre>
++    </div>
++
++    <div class="section">
++        <h2>Exempel</h2>
+ 
+-                        <h3 class="mt-4">Example Response</h3>
+-                        <pre><code>{
++        <h3>Exempel på anrop för flygsökning:</h3>
++        <pre>GET http://localhost:7000/search?from=Stockholm&destination=London&departDate=2023-12-25</pre>
++
++        <h3>Exempel på svar för flygsökning:</h3>
++        <pre>{
+   "flights": [
+     {
+       "price": 299.99,
+@@ -464,19 +320,6 @@
+       "airline": "SAS",
+       "departureAirport": "Stockholm Arlanda Airport",
+       "arrivalAirport": "London Heathrow Airport"
+-    },
+-    {
+-      "price": 349.50,
+-      "formattedPrice": "$349.50",
+-      "departureCity": "Stockholm",
+-      "arrivalCity": "London",
+-      "departureTime": "2023-12-25T12:15:00",
+-      "arrivalTime": "2023-12-25T14:30:00",
+-      "duration": 135,
+-      "stops": 0,
+-      "airline": "British Airways",
+-      "departureAirport": "Stockholm Arlanda Airport",
+-      "arrivalAirport": "London Heathrow Airport"
+     }
+   ],
+   "weather": {
+@@ -488,73 +331,91 @@
+             "temperature": 5.2,
+             "weatherCode": 1001
+           }
+-        },
+-        {
+-          "time": "2023-12-25T01:00:00Z",
+-          "values": {
+-            "temperature": 4.8,
+-            "weatherCode": 1001
+-          }
+-        },
+-        {
+-          "time": "2023-12-25T02:00:00Z",
+-          "values": {
+-            "temperature": 4.5,
+-            "weatherCode": 1101
+-          }
+         }
+-        // Additional hourly forecasts...
+       ]
+     }
+   }
+-}</code></pre>
++}</pre>
+ 
+-                        <h3 class="mt-4">Error Response Example</h3>
+-                        <pre><code>{
+-  "error": "Failed to search flights. Status code: 404",
+-  "message": "No flights found for the specified route and date."
+-}</code></pre>
++        <h3>Exempel på anrop för sevärdheter:</h3>
++        <pre>GET http://localhost:7000/attractions?city=London</pre>
+ 
+-                        <h3 class="mt-4">Using the API with JavaScript</h3>
+-                        <pre><code>// Example of how to call the API using JavaScript fetch
+-async function searchFlightsAndWeather() {
+-  const departureCity = "Stockholm";
+-  const destinationCity = "London";
+-  const departureDate = "2023-12-25";
++        <h3>Exempel på svar för sevärdheter:</h3>
++        <pre>[
++  {
++    "name": "British Museum",
++    "kinds": "museums,cultural",
++    "description": "The British Museum is a public museum dedicated to human history, art and culture located in London. Its permanent collection of eight million works is among the largest and most comprehensive in existence.",
++    "latitude": 51.5194,
++    "longitude": -0.1269,
++    "imageUrl": null
++  },
++  {
++    "name": "Tower of London",
++    "kinds": "historic,architecture,castles",
++    "description": "The Tower of London, officially Her Majesty's Royal Palace and Fortress of the Tower of London, is a historic castle on the north bank of the River Thames in central London.",
++    "latitude": 51.5081,
++    "longitude": -0.0759,
++    "imageUrl": null
++  }
++]</pre>
++
++        <h3>Exempel på JavaScript-kod för att anropa API:et:</h3>
++        <pre>// Exempel på hur man anropar flygsöknings-API:et med JavaScript
++async function searchFlights() {
++  const from = "Stockholm";
++  const destination = "London";
++  const departDate = "2023-12-25";
+ 
+   try {
+-    const url = `http://localhost:7000/search?from=${encodeURIComponent(departureCity)}&destination=${encodeURIComponent(destinationCity)}&departDate=${encodeURIComponent(departureDate)}`;
+-
++    const url = `http://localhost:7000/search?from=${encodeURIComponent(from)}&destination=${encodeURIComponent(destination)}&departDate=${encodeURIComponent(departDate)}`;
+     const response = await fetch(url);
++
+     if (!response.ok) {
+-      throw new Error("Network error: " + response.status);
++      const errorData = await response.json();
++      throw new Error(errorData.error || "Ett fel uppstod vid sökning");
+     }
+ 
+     const data = await response.json();
+-    console.log("Flights:", data.flights);
+-    console.log("Weather:", data.weather);
++    console.log("Flygresultat:", data.flights);
++    console.log("Väderprognos:", data.weather);
+ 
+-    // Process the data...
++    // Visa resultaten på sidan
++    displayResults(data);
+   } catch (error) {
+-    console.error("Error calling API:", error);
++    console.error("Error:", error);
++    // Visa felmeddelande för användaren
++    displayError(error.message);
+   }
+-}</code></pre>
+-                    </div>
+-                </div>
+-            </div>
+-        </div>
+-    </main>
++}
++
++// Exempel på hur man anropar sevärdhets-API:et med JavaScript
++async function fetchAttractions(city) {
++  try {
++    const url = `http://localhost:7000/attractions?city=${encodeURIComponent(city)}`;
++    const response = await fetch(url);
++
++    if (!response.ok) {
++      const errorData = await response.json();
++      throw new Error(errorData.error || "Kunde inte hämta sevärdheter");
++    }
++
++    const attractions = await response.json();
++    console.log("Sevärdheter:", attractions);
++
++    // Visa sevärdheter på sidan
++    displayAttractions(attractions);
++  } catch (error) {
++    console.error("Error:", error);
++    // Visa felmeddelande för användaren
++    displayError(error.message);
++  }
++}</pre>
++    </div>
+ 
+-    <footer class="py-3 my-4">
+-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+-            <li class="nav-item"><a href="faq.html" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+-            <li class="nav-item"><a href="about.html" class="nav-link px-2 text-body-secondary">About</a></li>
+-        </ul>
+-        <p class="text-center text-body-secondary">&copy; 2024 SkyExplorer, Inc</p>
++    <footer>
++        <p>SkyExplorer API Dokumentation | Senast uppdaterad: Mars 2024</p>
+     </footer>
+ </div>
+-
+-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+ </body>
+ </html>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"29729ce9-8b97-4cdd-84b0-62151254a1cb\" name=\"Changes\" comment=\"nytt\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/jarRepositories.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/FlightSearchException.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/Main.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/Airline.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/Airport.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/Carriers.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/FlightResponse.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/FlightResult.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/FlightSearchRequest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/Itinerary.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/Leg.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/service/dto/Segment.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/vcs.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/SkyExplorer.iml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/SkyExplorer.iml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/service/FlightService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/service/FlightService.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"Emil\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 5\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2r7CTMHtksTnwRU54HGnzjZNw3X\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;Mahyar1&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RunAnythingCache\">\r\n    <option name=\"myCommands\">\r\n      <command value=\"mvn clean install\" />\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.service.Main\">\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"Main\" />\r\n      <module name=\"SkyExplorer\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"service.Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"service.Main\" />\r\n      <module name=\"SkyExplorer\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"service.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\r\n      <option name=\"filePath\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.service.Main\" />\r\n        <item itemvalue=\"Application.Main\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"29729ce9-8b97-4cdd-84b0-62151254a1cb\" name=\"Changes\" comment=\"\" />\r\n      <created>1735900736375</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1735900736375</updated>\r\n      <workItem from=\"1735900737422\" duration=\"610000\" />\r\n      <workItem from=\"1740317507227\" duration=\"828000\" />\r\n    </task>\r\n    <task id=\"LOCAL−00001\" summary=\"nytt\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1735900804345</created>\r\n      <option name=\"number\" value=\"LOCAL−00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00001\" />\r\n      <updated>1735900804345</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00002\" summary=\"nytt\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1735900931883</created>\r\n      <option name=\"number\" value=\"LOCAL−00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00002\" />\r\n      <updated>1735900931883</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"nytt\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"nytt\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/.idea/workspace.xml	(date 1741450279574)
+@@ -5,25 +5,24 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
+-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/FlightSearchException.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/Main.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/Airline.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/Airport.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/Carriers.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/FlightResponse.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/FlightResult.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/FlightSearchRequest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/Itinerary.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/Leg.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/service/dto/Segment.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/SkyExplorer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SkyExplorer.iml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/service/FlightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/FlightService.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/controller/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/App.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/SearchController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/service/dto/Carriers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/dto/Carriers.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/service/dto/FlightResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/dto/FlightResponse.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/controller/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/App.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/controller/PlaceController.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/SearchController.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/controller/WeatherController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/WeatherController.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/style.css" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/api-docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/api-docs.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/attractions.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/service/AttractionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/AttractionService.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/service/FlightService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/FlightService.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/service/WeatherService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/WeatherService.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/FlightResponse$FlightData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/dto/FlightResponse$FlightData.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/service/dto/FlightResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/dto/FlightResponse.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -56,10 +55,14 @@
+   </component>
+   <component name="PropertiesComponent">{
+   &quot;keyToString&quot;: {
++    &quot;Application.App.executor&quot;: &quot;Run&quot;,
++    &quot;Application.service.Main.executor&quot;: &quot;Run&quot;,
++    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Run&quot;,
++    &quot;Maven.SkyExplorer [clean,install].executor&quot;: &quot;Run&quot;,
+     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;Mahyar1&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;Test-Branch&quot;,
+     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+@@ -74,7 +77,7 @@
+       <command value="mvn clean install" />
+     </option>
+   </component>
+-  <component name="RunManager" selected="Application.service.Main">
++  <component name="RunManager">
+     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+       <option name="MAIN_CLASS_NAME" value="Main" />
+       <module name="SkyExplorer" />
+Index: target/classes/frontend/style.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.d-block:hover{\r\n    filter: brightness(0.8);\r\n    transform: scale(1.05);\r\n    transition: all 0.3s ease;\r\n}\r\n.search-container {\r\n    background-color: white;\r\n    border-radius: 50px;\r\n    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);\r\n    padding: 10px;\r\n    max-width: 500px;\r\n    width: 100%;\r\n    transition: all 0.3s ease;\r\n}\r\n.form-control.search-input {\r\n    border: none;\r\n    background: transparent;\r\n    padding-left: 20px;\r\n    font-size: 1rem;\r\n    height: 50px;\r\n}\r\n.search-icon {\r\n    color: #6c757d;\r\n    position: absolute;\r\n    left: 15px;\r\n    top: 65%;\r\n    transform: translateY(-50%);\r\n}\r\n.search-container {\r\n    max-width: 400px; \r\n    flex-grow: 1;\r\n}\r\n.search-container .btn-search:hover {\r\n    background-color: #b5b5b5;\r\n    transition: background-color 0.5s ease;\r\n}\r\n.form-label {\r\n    font-weight: bold;\r\n    margin-bottom: 5px;\r\n    display: block;\r\n    text-align: center;\r\n}\r\n.date-pickers {\r\n    margin-top: 20px;\r\n}\r\n\r\n.date-picker-container {\r\n    position: relative;\r\n    margin-bottom: 20px;\r\n    flex: 1;\r\n    max-width: 300px;\r\n    background-color: white;\r\n    border-radius: 50px;\r\n    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);\r\n    padding: 20px;\r\n}\r\n.date-picker-container .dropdown {\r\n    position: absolute; \r\n    background-color: white;\r\n    border-radius: 50px;\r\n    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);\r\n    padding: 10px;\r\n}\r\n.card-img-top{\r\n    height: 300px;\r\n    width: 100%;\r\n    object-fit: cover;\r\n}\r\n.card-img-top:hover {\r\n    filter: brightness(0.8);\r\n    transform: scale(1.05);\r\n    transition: all 0.3s ease;\r\n}\r\n.cards{\r\n    margin-top: 75px;\r\n}\r\n#search-flights {\r\n    display: block;\r\n    margin: 15px auto;\r\n    padding: 12px 24px;\r\n    font-size: 18px;\r\n    background-color: #b5b5b5;\r\n    border: none;\r\n    transition: background 0.3s ease-in-out;\r\n}\r\n\r\n#search-flights:hover {\r\n    background-color: #979797;\r\n}\r\n\r\n\r\n.weather-card {\r\n  transition: all 0.3s ease;\r\n  box-shadow: 0 4px 6px rgba(0,0,0,0.1);\r\n}\r\n\r\n.weather-card:hover {\r\n  transform: translateY(-5px);\r\n  box-shadow: 0 10px 15px rgba(0,0,0,0.1);\r\n}\r\n\r\n.search-field {\r\n  background-color: #f8f9fa;\r\n  padding: 2rem;\r\n  border-radius: 0.5rem;\r\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\r\n  margin-bottom: 2rem;\r\n  text-align: center;\r\n}\r\n.search-icon {\r\n  position: absolute;\r\n  left: 15px;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n  z-index: 10;\r\n}\r\n.search-input {\r\n  padding-left: 40px !important;\r\n}\r\n.flight-card {\r\n  transition: all 0.3s ease;\r\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n.flight-card:hover {\r\n  transform: scale(1.03);\r\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);\r\n  z-index: 10;\r\n}\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/target/classes/frontend/style.css b/target/classes/frontend/style.css
+--- a/target/classes/frontend/style.css	(revision 7256a682b69ada7e65a4bcb4f15f3b82fec0d141)
++++ b/target/classes/frontend/style.css	(date 1741449664555)
+@@ -129,4 +129,245 @@
+ }
+ 
+ 
++/* För attractions */
++
++body {
++    font-family: 'Roboto', Arial, sans-serif;
++    margin: 20px;
++    background-color: #f8f9fa;
++    color: #333;
++    line-height: 1.6;
++}
++
++h1 {
++    color: #2c3e50;
++    font-size: 2.5rem;
++    margin-bottom: 0.5rem;
++    font-weight: 700;
++}
++
++h2 {
++    color: #3498db;
++    font-size: 1.8rem;
++    margin-bottom: 0.8rem;
++    font-weight: 600;
++}
++
++p {
++    font-size: 1.1rem;
++    margin-bottom: 1.2rem;
++}
++
++.attraction-item {
++    margin-bottom: 25px;
++    padding: 20px;
++    border: 1px solid #e0e0e0;
++    border-radius: 10px;
++    background-color: white;
++    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
++    transition: transform 0.2s, box-shadow 0.2s;
++}
++
++.attraction-item:hover {
++    transform: translateY(-5px);
++    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
++}
++
++.attraction-image {
++    max-width: 100%;
++    height: auto;
++    margin-bottom: 15px;
++    border-radius: 5px;
++}
++
++.map-link {
++    color: #3498db;
++    text-decoration: none;
++    font-weight: 500;
++    display: inline-block;
++    padding: 5px 0;
++    border-bottom: 2px solid transparent;
++    transition: border-color 0.2s;
++}
++
++.map-link:hover {
++    border-bottom-color: #3498db;
++}
++
++.category {
++    display: inline-block;
++    background-color: #e9f7fe;
++    color: #3498db;
++    padding: 5px 10px;
++    margin-right: 8px;
++    margin-bottom: 10px;
++    border-radius: 5px;
++    font-size: 0.9rem;
++    font-weight: 500;
++}
++
++#loading {
++    font-size: 1.2rem;
++    text-align: center;
++    padding: 20px;
++}
++
++#error-message {
++    background-color: #ffe9e9;
++    color: #e74c3c;
++    padding: 15px;
++    border-radius: 5px;
++    font-weight: 500;
++    margin-bottom: 20px;
++}
++
++a {
++    color: #3498db;
++    text-decoration: none;
++    font-weight: 500;
++}
++
++a:hover {
++    text-decoration: underline;
++}
++
++.intro-text {
++    font-size: 1.3rem;
++    color: #555;
++    margin-bottom: 25px;
++}
++
++.section {
++    margin-bottom: 30px;
++    padding: 20px;
++    border: 1px solid #ddd;
++    border-radius: 8px;
++    background-color: #fff;
++    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
++}
++
++.method {
++    display: inline-block;
++    padding: 5px 10px;
++    border-radius: 4px;
++    color: white;
++    font-weight: bold;
++    margin-right: 10px;
++}
++
++.get {
++    background-color: #3498db;
++}
++
++.endpoint {
++    font-family: monospace;
++    background-color: #f8f9fa;
++    padding: 5px;
++    border-radius: 4px;
++    border: 1px solid #e9ecef;
++}
++
++.required {
++    color: #e74c3c;
++    font-weight: bold;
++}
++
++.optional {
++    color: #7f8c8d;
++}
++
++
++/* Stilar för API-dokumentation */
++.section {
++    margin-bottom: 30px;
++    padding: 20px;
++    border: 1px solid #ddd;
++    border-radius: 8px;
++    background-color: #fff;
++    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
++}
++
++h1 {
++    color: #2c3e50;
++    margin-bottom: 20px;
++}
++
++h2 {
++    color: #3498db;
++    border-bottom: 2px solid #f0f0f0;
++    padding-bottom: 10px;
++    margin-bottom: 15px;
++}
++
++h3 {
++    color: #2c3e50;
++    margin-top: 20px;
++    margin-bottom: 15px;
++}
++
++pre {
++    background-color: #f8f9fa;
++    padding: 15px;
++    border-radius: 5px;
++    overflow-x: auto;
++    border: 1px solid #e9ecef;
++}
++
++table {
++    width: 100%;
++    border-collapse: collapse;
++    margin-bottom: 20px;
++}
+ 
++th, td {
++    border: 1px solid #ddd;
++    padding: 12px;
++    text-align: left;
++}
++
++th {
++    background-color: #f2f2f2;
++    font-weight: 600;
++}
++
++tr:nth-child(even) {
++    background-color: #f8f9fa;
++}
++
++.method {
++    display: inline-block;
++    padding: 5px 10px;
++    border-radius: 4px;
++    color: white;
++    font-weight: bold;
++    margin-right: 10px;
++}
++
++.get {
++    background-color: #3498db;
++}
++
++.endpoint {
++    font-family: monospace;
++    background-color: #f8f9fa;
++    padding: 5px;
++    border-radius: 4px;
++    border: 1px solid #e9ecef;
++}
++
++.required {
++    color: #e74c3c;
++    font-weight: bold;
++}
++
++.optional {
++    color: #7f8c8d;
++}
++
++footer {
++    margin-top: 40px;
++    padding-top: 20px;
++    border-top: 1px solid #ddd;
++    text-align: center;
++    color: #7f8c8d;
++}
+\ No newline at end of file

@@ -2,6 +2,8 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+src/resources/application.properties
+
 
 ### Eclipse ###
 .apt_generated
@@ -27,3 +29,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+target/classes/resources/application.properties
+.idea/workspace.xml
+
+target/classes/application.properties
+
