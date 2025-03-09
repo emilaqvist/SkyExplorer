@@ -16,6 +16,7 @@ import java.util.Map;
  *
  *
  **/
+
 public class SearchController {
     private static FlightService flightService;
     private static WeatherService weatherService;
@@ -99,6 +100,5 @@ public class SearchController {
                 context.status(500).result(gson.toJson(errorResponse));
             }
         });
-
     }
 }

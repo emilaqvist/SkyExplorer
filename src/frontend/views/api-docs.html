@@ -313,8 +313,8 @@
       "formattedPrice": "$299.99",
       "departureCity": "Stockholm",
       "arrivalCity": "London",
-      "departureTime": "2023-12-25T08:30:00",
-      "arrivalTime": "2023-12-25T10:45:00",
+      "departureTime": "2024-12-25 Time: 08:30:00",
+      "arrivalTime": "2024-12-25 Time: 10:45:00",
       "duration": 135,
       "stops": 0,
       "airline": "SAS",
@@ -326,7 +326,7 @@
     "timelines": {
       "hourly": [
         {
-          "time": "2023-12-25T00:00:00Z",
+          "time": "2024-12-25 Time: 00:00:00Z",
           "values": {
             "temperature": 5.2,
             "weatherCode": 1001
@@ -365,7 +365,7 @@
 async function searchFlights() {
   const from = "Stockholm";
   const destination = "London";
-  const departDate = "2023-12-25";
+  const departDate = "2024-12-25";
 
   try {
     const url = `http://localhost:7000/search?from=${encodeURIComponent(from)}&destination=${encodeURIComponent(destination)}&departDate=${encodeURIComponent(departDate)}`;
@@ -414,7 +414,7 @@ async function fetchAttractions(city) {
     </div>
 
     <footer>
-        <p>SkyExplorer API Dokumentation | Senast uppdaterad: Mars 2024</p>
+        <p>SkyExplorer API Dokumentation | Senast uppdaterad: Mars 2025</p>
     </footer>
 </div>
 </body>

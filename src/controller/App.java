@@ -16,7 +16,7 @@ public class App {
         });
 
         String apiKey = Configurator.getProperty("FLIGHT_API_KEY");
-        WeatherController.registerRoutes(app);
+        //WeatherController.registerRoutes(app);
         SearchController.registerRoutes(app,apiKey);
 
 

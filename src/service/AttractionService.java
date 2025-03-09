@@ -52,7 +52,7 @@ public class AttractionService {
         // Koda stadsnamnet för URL
         String encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8);
 
-        // Bygg URL för att hämta koordinater, det här var för att kunna skriva namnet på staden till API
+        // Bygg URL för att hämta koordinater, det här var för att kunna skriva koordinates på staden
         String url = baseUrl + "/geoname?name=" + encodedCity;
 
         // Skapa HTTP-request
