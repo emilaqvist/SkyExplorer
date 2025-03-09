@@ -6,6 +6,7 @@ import misc.Configurator;
 /**
  * Main klassen till applikationen, den har som ansvarsområde att starta våran JavaLin server till webben.
  * Klassen initierar alltså servern, samt kallar på klasserna som skapar API routesen.
+ * @author Emil
  */
 public class App {
     /**

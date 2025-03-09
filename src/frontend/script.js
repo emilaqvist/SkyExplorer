@@ -94,7 +94,7 @@ function displayResults(data) {
       // if there are stops
       let connectionsHtml = ""
       if (flight.stops > 0) {
-        // if there are stops
+        // if there are any stops
         connectionsHtml = `
           <div class="connections mt-2 mb-2">
             <p class="mb-1"><strong>Stops:</strong> ${flight.stops} ${flight.stops === 1 ? 'stop' : 'stops'}</p>
