@@ -238,40 +238,40 @@ function getWeatherInfo(weatherCode) {
   switch (weatherCode) {
     // Clear conditions
     case 1000: // Clear, Sunny
-      return { description: "Clear", icon: "bi-sun", class: "text-warning" }
+      return { description: "Clear/Sunny"}
 
     // Cloudy conditions
     case 1100: // Mostly Clear
-      return { description: "Mostly Clear", icon: "bi-sun", class: "text-warning" }
+      return { description: "Mostly Clear"}
     case 1101: // Partly Cloudy
-      return { description: "Partly Cloudy", icon: "bi-cloud-sun", class: "text-secondary" }
+      return { description: "Partly Cloudy"}
     case 1102: // Mostly Cloudy
-      return { description: "Mostly Cloudy", icon: "bi-cloudy", class: "text-secondary" }
+      return { description: "Mostly Cloudy"}
     case 1001: // Cloudy
-      return { description: "Cloudy", icon: "bi-cloud", class: "text-secondary" }
+      return { description: "Cloudy"}
 
     // Rain conditions
     case 4000: // Drizzle
     case 4200: // Light Rain
-      return { description: "Light Rain", icon: "bi-cloud-drizzle", class: "text-primary" }
+      return { description: "Light Rain"}
     case 4001: // Rain
     case 4201: // Heavy Rain
-      return { description: "Rain", icon: "bi-cloud-rain", class: "text-primary" }
+      return { description: "Rain"}
 
     // Snow conditions
     case 5000: // Snow
     case 5100: // Light Snow
-      return { description: "Snow", icon: "bi-snow", class: "text-info" }
+      return { description: "Snow"}
     case 5101: // Heavy Snow
-      return { description: "Heavy Snow", icon: "bi-snow3", class: "text-info" }
+      return { description: "Heavy Snow"}
 
     // Thunderstorm
     case 8000: // Thunderstorm
-      return { description: "Thunderstorm", icon: "bi-cloud-lightning-rain", class: "text-danger" }
+      return { description: "Thunderstorm"}
 
     // Default case
     default:
-      return { description: "Clear", icon: "bi-sun", class: "text-warning" }
+      return { description: "Unknown"}
   }
 }
 
