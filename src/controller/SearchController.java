@@ -88,9 +88,7 @@ public class SearchController {
             String city = context.queryParam("city");
 
             if (city == null || city.isEmpty()) {
-                Map<String, String> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Stad måste anges");
-                context.status(400).result(gson.toJson(errorResponse));
+                context.status(400).result("{\"error\": \"Stad måste anges\"}");
                 return;
             }
 
@@ -99,9 +97,7 @@ public class SearchController {
                 List<Attraction> attractions = attractionService.getAttractionsForCity(city);
                 context.result(gson.toJson(attractions));
             } catch (Exception e) {
-                Map<String, String> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Fel vid hämtning av attraktioner: " + e.getMessage());
-                context.status(500).result(gson.toJson(errorResponse));
+                context.status(500).result("{\"error\": \"Kunde inte hämta sevärdheter\"}");
             }
         });
     }

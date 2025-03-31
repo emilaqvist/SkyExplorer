@@ -43,83 +43,44 @@
   });
 
   function loadAttractions(city) {
-      $("#loading").show();
-      $("#attractions-container").empty();
-      $("#error-message").hide();
+    $("#loading").show();
+    $("#attractions-container").empty();
+    $("#error-message").hide();
 
-      const url = `http://localhost:7000/attractions?city=${encodeURIComponent(city)}`;
+    const url = `http://localhost:7000/attractions?city=${encodeURIComponent(city)}`;
 
-      fetch(url)
-          .then(response => {
-              if (!response.ok) {
-                  return response.json().then(data => {
-                      throw new Error(data.error || "Kunde inte hämta platser");
-                  });
-              }
-              return response.json();
-          })
-          .then(attractions => {
-              displayAttractions(attractions);
-          })
-          .catch(error => {
+    fetch(url)
+            .then(response => response.json())
+            .then(attractions => displayAttractions(attractions))
+            .catch(error => {
               console.error("Error:", error);
-              $("#error-message").show();
-          })
-          .finally(() => {
-              $("#loading").hide();
-          });
+                $("#error-message").show();
+            })
+            .finally(() => {
+                $("#loading").hide();
+            });
   }
 
   function displayAttractions(attractions) {
-      if (attractions.length === 0) {
-          $("#attractions-container").html('<p>Inga platser hittades för denna destination.</p>');
-          return;
-      }
+    if (attractions.length === 0) {
+        $("#attractions-container").html('<p>Inga platser hittades för denna destination.</p>');
+        return;
+    }
 
-      attractions.forEach(attraction => {
-          const categories = attraction.kinds.split(",");
-          let categoryHtml = '';
+    attractions.forEach(attraction => {
+      const item = `
+            <div class="attraction-item">
+                <h2>${attraction.name}</h2>
+                ${attraction.imageUrl ? `<img src="${attraction.imageUrl}" alt="${attraction.name}" class="attraction-image">` : ''}
+                <p>${attraction.description || 'Ingen beskrivning tillgänglig.'}</p>
+                <p><a href="https://en.wikipedia.org/wiki/${encodeURIComponent(attraction.name)}" target="_blank">Läs mer på Wikipedia</a></p>
+            </div>
+        `;
 
-          categories.slice(0, 2).forEach(category => {
-              const categoryName = formatCategory(category.trim());
-              categoryHtml += `<span class="category">${categoryName}</span>`;
-          });
-
-          let description = attraction.description || 'Ingen beskrivning tillgänglig.';
-
-          const item = `
-              <div class="attraction-item">
-                  <h2>${attraction.name}</h2>
-                  <div>${categoryHtml}</div>
-                  ${attraction.imageUrl ? `<img src="${attraction.imageUrl}" alt="${attraction.name}" class="attraction-image">` : ''}
-                  <p>${description}</p>
-                  <p><a class="map-link" href="https://www.google.com/maps/search/?api=1&query=${attraction.latitude},${attraction.longitude}" target="_blank">Visa på karta</a></p>
-              </div>
-          `;
-
-          $("#attractions-container").append(item);
-      });
+        $("#attractions-container").append(item);
+    });
   }
 
-  function formatCategory(category) {
-      const categoryMap = {
-          "cultural": "Kultur",
-          "natural": "Natur",
-          "amusements": "Nöjen",
-          "historic": "Historiskt",
-          "architecture": "Arkitektur",
-          "museums": "Museum",
-          "religion": "Religion",
-          "foods": "Mat & Dryck",
-          "shops": "Shopping",
-          "tourist_facilities": "Turistanläggning",
-          "interesting_places": "Intressant plats",
-          "monuments": "Monument",
-          "theatres_and_entertainments": "Teater & Underhållning"
-      };
-
-      return categoryMap[category] || category;
-  }
 </script>
 </body>
 </html>
