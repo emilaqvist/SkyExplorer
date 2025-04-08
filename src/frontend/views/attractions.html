@@ -11,8 +11,7 @@
 <p><a href="index.html" class="btn btn-primary">Tillbaka till sökning</a></p>
 
 <div class="container">
-  <h1>Platser att besöka i <span id="city-name"></span></h1>
-  <p class="intro-text">Här är några intressanta platser du kan besöka på din resa.</p>
+  <h1>Information om  <span id="city-name"></span></h1>
 
   <div id="loading">
     <p>Laddar platser...</p>
@@ -47,38 +46,42 @@
     $("#attractions-container").empty();
     $("#error-message").hide();
 
-    const url = `http://localhost:7000/attractions?city=${encodeURIComponent(city)}`;
+    const url = `http://localhost:7000/cityinfo?city=${encodeURIComponent(city)}`;
+
 
     fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP-fel! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(attractions => displayAttractions(attractions))
             .catch(error => {
-              console.error("Error:", error);
+                console.error("Error:", error);
                 $("#error-message").show();
             })
             .finally(() => {
                 $("#loading").hide();
             });
+
+
   }
 
-  function displayAttractions(attractions) {
-    if (attractions.length === 0) {
-        $("#attractions-container").html('<p>Inga platser hittades för denna destination.</p>');
-        return;
-    }
 
-    attractions.forEach(attraction => {
-      const item = `
-            <div class="attraction-item">
-                <h2>${attraction.name}</h2>
-                ${attraction.imageUrl ? `<img src="${attraction.imageUrl}" alt="${attraction.name}" class="attraction-image">` : ''}
-                <p>${attraction.description || 'Ingen beskrivning tillgänglig.'}</p>
-                <p><a href="https://en.wikipedia.org/wiki/${encodeURIComponent(attraction.name)}" target="_blank">Läs mer på Wikipedia</a></p>
-            </div>
-        `;
+  function displayAttractions(cityInfo) {
+    $("#attractions-container").empty()
 
-        $("#attractions-container").append(item);
-    });
+    const item = `
+        <div class="city-info">
+            <h2>${cityInfo.title}</h2>
+            ${cityInfo.imageUrl ? `<img src="${cityInfo.imageUrl}" alt="${cityInfo.title}" class="attraction-image">` : ''}
+            <p>${cityInfo.description || 'Ingen beskrivning tillgänglig.'}</p>
+            <p><a href="${cityInfo.url}" target="_blank">Läs mer på Wikipedia</a></p>
+        </div>
+    `;
+
+    $("#attractions-container").append(item);
   }
 
 </script>

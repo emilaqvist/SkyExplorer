@@ -84,7 +84,8 @@ public class SearchController {
             }
         });
 
-        app.get("/attractions", context -> {
+
+        app.get("/cityinfo", context -> {
             String city = context.queryParam("city");
 
             if (city == null || city.isEmpty()) {
@@ -93,11 +94,11 @@ public class SearchController {
             }
 
             try {
-                AttractionService attractionService = new AttractionService();
-                List<Attraction> attractions = attractionService.getAttractionsForCity(city);
-                context.result(gson.toJson(attractions));
+                CityService cityService = new CityService();
+                Attraction cityInfo = cityService.getCityInfo(city);
+                context.result(gson.toJson(cityInfo));
             } catch (Exception e) {
-                context.status(500).result("{\"error\": \"Kunde inte hämta sevärdheter\"}");
+                context.status(500).result("{\"error\": \"Kunde inte hämta information om staden\"}");
             }
         });
     }
