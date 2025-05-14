@@ -2,8 +2,10 @@ package controller;
 
 import com.google.gson.Gson;
 import io.javalin.Javalin;
-import service.*;
 import model.dto.Attraction;
+import model.dto.FlightResult;
+import service.*;
+import model.dto.CityInfo;
 import model.dto.FlightSearchRequest;
 
 import java.util.HashMap;
@@ -11,10 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *SearchController hanterar endpoints för API för att söka på flyg, hämta väderdata samt sevärdheter.
+ * Denna kontroller klass tar ihop många tjänster och returnerar en sk. mashup flyg väder och sevärdheter.
  * @author Emil
  * @author Mahyar
- * SearchController hanterar endpoints för API för att söka på flyg, hämta väderdata samt sevärdheter.
- * Denna kontroller klass tar ihop många tjänster och returnerar en sk. mashup flyg väder och sevärdheter.
+ * @author Amer
  **/
 public class SearchController {
     private static FlightService flightService;
@@ -65,7 +68,7 @@ public class SearchController {
             FlightSearchRequest request = new FlightSearchRequest(fromFlightId,destinationFlightId,departDate);
 
             try{
-                var flights = flightService.searchFlights(request);
+                List<FlightResult> flights = flightService.searchFlights(request); //Bytte till tydligare definiering istället för tidigare med var
                 String weatherJson = weatherService.getWeatherData(destination);
 
                 //Kombinera
@@ -95,10 +98,32 @@ public class SearchController {
 
             try {
                 CityService cityService = new CityService();
-                Attraction cityInfo = cityService.getCityInfo(city);
+                CityInfo cityInfo = cityService.getCityInfo(city);
                 context.result(gson.toJson(cityInfo));
             } catch (Exception e) {
                 context.status(500).result("{\"error\": \"Kunde inte hämta information om staden\"}");
+            }
+        });
+
+
+        app.get("/attractions", context -> {
+            String city = context.queryParam("city");
+
+            if (city == null || city.isEmpty()) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Stad måste anges");
+                context.status(400).result(gson.toJson(errorResponse));
+                return;
+            }
+
+            try {
+                AttractionService attractionService = new AttractionService();
+                List<Attraction> attractions = attractionService.getAttractionsForCity(city);
+                context.result(gson.toJson(attractions));
+            } catch (Exception e) {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Fel vid hämtning av attraktioner: " + e.getMessage());
+                context.status(500).result(gson.toJson(errorResponse));
             }
         });
     }

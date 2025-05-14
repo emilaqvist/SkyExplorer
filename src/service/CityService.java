@@ -2,7 +2,7 @@ package service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import model.dto.Attraction;
+import model.dto.CityInfo;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -20,7 +20,7 @@ public class CityService {
     }
 
 
-    public Attraction getCityInfo(String cityName) throws Exception
+    public CityInfo getCityInfo(String cityName) throws Exception
     {
         String url = String.format(
                 "https://sv.wikipedia.org/api/rest_v1/page/summary/%s",
@@ -47,7 +47,7 @@ public class CityService {
         String imageUrl = json.has("thumbnail") ? json.getAsJsonObject("thumbnail").get("source").getAsString() : "";
         String wikiUrl = json.getAsJsonObject("content_urls").getAsJsonObject("desktop").get("page").getAsString();
 
-        return new Attraction(title, description, imageUrl, wikiUrl);
+        return new CityInfo(title, description, imageUrl, wikiUrl);
     }
 
 }

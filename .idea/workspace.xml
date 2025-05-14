@@ -5,18 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
+      <change afterPath="$PROJECT_DIR$/src/service/AttractionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/SearchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/views/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/views/attractions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/Attraction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/Attraction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/AttractionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/views/cityinfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/views/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/views/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/dto/Attraction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/dto/CityInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/CityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/CityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/FlightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/FlightService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/OpenTripMapTest$Place.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/OpenTripMapTest$PlaceDetails.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/OpenTripMapTest.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/SearchController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/attractions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/frontend/views/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/flight.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Attraction.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/dto/Attraction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/service/AttractionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/AttractionService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/CityService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/CityService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +43,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Emil" />
+        <entry key="$PROJECT_DIR$" value="MainTesting" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,7 +75,9 @@
     "Application.WikipediaAPI.executor": "Run",
     "Application.service.Main.executor": "Run",
     "JavaScript Debug.api-docs.html.executor": "Run",
+    "JavaScript Debug.attractions.html.executor": "Run",
     "JavaScript Debug.flight.html.executor": "Run",
+    "JavaScript Debug.index.html (1).executor": "Run",
     "JavaScript Debug.index.html.executor": "Run",
     "JavaScript Debug.testing.html.executor": "Debug",
     "Maven.SkyExplorer [clean,install].executor": "Run",
@@ -81,6 +93,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -90,6 +105,30 @@
     </option>
   </component>
   <component name="RunManager" selected="JavaScript Debug.index.html">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="controller.App" />
+      <module name="SkyExplorer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="controller.App" />
       <module name="SkyExplorer" />
@@ -110,20 +149,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="service.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="service.Main" />
-      <module name="SkyExplorer" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="cityinfo.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/cityinfo.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/views/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/views/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="testing.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/testing.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="testing.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/testing.html" useBuiltInWebServerPort="true">
@@ -144,9 +185,9 @@
       <list>
         <item itemvalue="JavaScript Debug.index.html" />
         <item itemvalue="Application.App" />
+        <item itemvalue="JavaScript Debug.cityinfo.html" />
+        <item itemvalue="JavaScript Debug.index.html (1)" />
         <item itemvalue="JavaScript Debug.testing.html" />
-        <item itemvalue="Application.WikipediaAPI" />
-        <item itemvalue="Application.service.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -176,6 +217,7 @@
       <workItem from="1743506715453" duration="3574000" />
       <workItem from="1743516952195" duration="882000" />
       <workItem from="1744120804268" duration="8102000" />
+      <workItem from="1747126719567" duration="2675000" />
     </task>
     <task id="LOCAL−00001" summary="nytt">
       <option name="closed" value="true" />

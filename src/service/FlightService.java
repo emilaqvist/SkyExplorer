@@ -56,7 +56,7 @@ public class FlightService {
                     return parseAndLimitFlightResponse(response.body());
                 }catch (NullPointerException e) {
 
-                        throw new FlightSearchException("Inga flygdata hittades för den angivna rutten. Kontrollera stadsnamnen.", 404);
+                    throw new FlightSearchException("Inga flygdata hittades för den angivna rutten. Kontrollera stadsnamnen.", 404);
                 }
 
             } else if (response.statusCode() == 400) {
