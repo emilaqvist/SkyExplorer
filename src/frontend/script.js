@@ -322,7 +322,7 @@ function showAlert(message, type) {
 $(document).ready(function () {
   let fromCurrency = null;
   let toCurrency = null;
-  const apiKey = "c2669164600c9ccacbd4cbb2";
+  const apiKey = CONFIG.CURRENCY_API_KEY;
 
   $(".from-currency").on("click", function () {
     fromCurrency = $(this).data("currency");
