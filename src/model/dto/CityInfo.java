@@ -2,8 +2,7 @@ package model.dto;
 
 /**
  * Representerar en attraction med detaljerad information via alla parametrar
- * @author Mahyar
- * @author Emil
+ * @author Amer Sabaredzovic
  */
 public class CityInfo {
     private String title;  // Namnet på sevärdheten
