@@ -29,7 +29,7 @@ public class Configurator {
     }
 
     /**
-     *
+     * Hämtar property
      * @param key Namnet kopplat till den API nyckel vi vill åt.
      * @return API nyckeln hämtat från application.properties.
      */

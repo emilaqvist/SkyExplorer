@@ -147,7 +147,7 @@ public class FlightService {
      *
      * @param itinerary the itinerary to convert.
      * @return a FlightResult object containing structured flight details.
-     * @Mahyar
+     * @author Mahyar
      */
     private FlightResult convertToFlightResult(Itinerary itinerary) {
         Leg leg = itinerary.getLegs().get(0);
