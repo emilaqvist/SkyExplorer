@@ -109,18 +109,16 @@
     padding: 20px;
     border: #d0d0d0 0.5px solid;
 }
-
-.currency-card{
-    max-width: 50%;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+#about_us {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: auto;
+    width: 70%;
+    border-radius: 10px;
+    padding: 20px;
+    border: #d0d0d0 0.5px solid;
 }
 
-.from-currency.active,
-.to-currency.active {
-  background-color: #0d6efd;
-  color: white;
-  border-color: #0d6efd;
-}
 
     .weather-card {
         transition: all 0.3s ease;

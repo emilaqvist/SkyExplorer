@@ -85,40 +85,6 @@
 
         <h4>Svar:</h4>
         <p>API:et returnerar en array av sevärdheter med information som namn, beskrivning, kategori och plats.</p>
-
-        <h3><span class="method get">GET</span> <span class="endpoint">https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/{from}/{to}/{amount}</span></h3>
-        <p>Hämtar konverteringsresultat från en valuta till en annan.</p>
-
-        <h4>Parametrar:</h4>
-        <table>
-            <tr>
-                <th>Parameter</th>
-                <th>Typ</th>
-                <th>Beskrivning</th>
-                <th>Obligatorisk</th>
-            </tr>
-            <tr>
-                <td>from</td>
-                <td>string</td>
-                <td>Ursprungsvaluta</td>
-                <td><span class="required">Ja</span></td>
-            </tr>
-            <tr>
-                <td>to</td>
-                <td>string</td>
-                <td>Målvaluta</td>
-                <td><span class="required">Ja</span></td>
-            </tr>
-            <tr>
-                <td>amount</td>
-                <td>number</td>
-                <td>Belopp som ska konverteras</td>
-                <td><span class="required">Ja</span></td>
-            </tr>
-        </table>
-
-        <h4>Svar:</h4>
-        <p>API:et returnerar ett JSON-objekt med resultatet av konverteringen.</p>
     </div>
 
     <div class="section">
@@ -258,40 +224,6 @@
                 <td>URL till en bild av sevärdheten (kan vara null)</td>
             </tr>
         </table>
-        <h3>CurrencyConverter</h3>
-        <p>Representerar resultatet av en valutakonventering</p>
-        <table>
-          <tr>
-            <th>Fält</th>
-            <th>Typ</th>
-            <th>Beskrivning</th>
-          </tr>
-          <tr>
-            <td>result</td>
-            <td>string</td>
-            <td>Ifall anropet lyckades</td>
-          </tr>
-          <tr>
-            <td>base_code</td>
-            <td>string</td>
-            <td>Valutan du konverterar från</td>
-          </tr>
-          <tr>
-            <td>target_code</td>
-            <td>string</td>
-            <td>Valutan du konverterar till</td>
-          </tr>
-          <tr>
-            <td>conversion_rate</td>
-            <td>number</td>
-            <td>Omvadnlingskursen från base_code till target_code</td>
-          </tr>
-          <tr>
-            <td>conversion_result</td>
-            <td>number</td>
-            <td>Det färdig konverterade beloppet</td>
-          </tr>
-        </table>
     </div>
 
     <div class="section">
@@ -429,19 +361,6 @@
   }
 ]</pre>
 
-        <h3>Exempel på anrop för currency converter:</h3>
-        <pre>GET https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/USD/SEK/100</pre>
-
-        <h3>Exempel på svar för currency converter:</h3>
-        <pre>
-{
-  "result": "success",
-  "base_code": "USD",
-  "target_code": "SEK",
-  "conversion_rate": 10.3,
-  "conversion_result": 1030
-}</pre>
-
         <h3>Exempel på JavaScript-kod för att anropa API:et:</h3>
         <pre>// Exempel på hur man anropar flygsöknings-API:et med JavaScript
 async function searchFlights() {
@@ -491,24 +410,6 @@ async function fetchAttractions(city) {
     console.error("Error:", error);
     // Visa felmeddelande för användaren
     displayError(error.message);
-  }
-}
-
-// Exempel på hur man anropar currency converter API:et med JavaScript
-async function convertCurrency(from, to, amount){
-  const url = `https://v6.exchangerate-api.com/v6/${CONFIG.CURRENCY_API_KEY}/pair/${from}/${to}/${amount}`
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.result === "success") {
-      console.log("Konverterat belopp:", data.conversion_result);
-    } else {
-      console.error("Fel i valutakonventering: ", data);
-    }
-  } catch (error) {
-    console.error("Error: ", error);
   }
 }</pre>
     </div>

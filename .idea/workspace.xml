@@ -5,75 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
+      <change afterPath="$PROJECT_DIR$/src/frontend/cityinfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dto/CityInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/CityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/SearchController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/images/Flight.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/images/attractions.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/images/currency-conv.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/images/logo.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/images/template.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/images/whether.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/views/api-docs.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/views/attractions.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/views/cityinfo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/views/faq.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/views/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/Configurator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/Airline.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/Airport.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/Attraction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/Carriers.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/CityInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/FlightResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/FlightResult.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/FlightSearchRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/Itinerary.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/dto/Leg.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/AttractionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/CityService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/FlightSearchException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/FlightService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/LocationMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/WeatherService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/Flight.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Flight.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/api-docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/api-docs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/attractions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/attractions.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/attractions.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/logo.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/logo.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/public/whether.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/whether.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/SearchController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/images/Flight.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/images/attractions.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/images/logo.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/images/template.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/images/whether.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/api-docs.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/attractions.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/cityinfo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/faq.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/views/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/misc/Configurator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/misc/Configurator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Airline.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Airport.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Attraction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Carriers.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/CityInfo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/FlightResponse$FlightData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/FlightResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/FlightResult$Builder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/FlightResult.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/FlightSearchRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Itinerary$Price.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Itinerary.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/dto/Leg.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/AttractionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/AttractionService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/CityService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/FlightService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/FlightService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/Flight.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/api-docs.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/attractions.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/attractions.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/faq.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/logo.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/whether.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/Flight.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/api-docs.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/attractions.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/attractions.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/faq.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/logo.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/public/whether.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/FlightSearchException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/FlightSearchException.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/service/LocationMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/LocationMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/service/WeatherService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/WeatherService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,6 +98,7 @@
     "JavaScript Debug.attractions.html.executor": "Run",
     "JavaScript Debug.flight.html.executor": "Run",
     "JavaScript Debug.index.html (1).executor": "Run",
+    "JavaScript Debug.index.html (2).executor": "Run",
     "JavaScript Debug.index.html.executor": "Run",
     "JavaScript Debug.testing.html.executor": "Debug",
     "Maven.SkyExplorer [clean,install].executor": "Run",
@@ -149,12 +120,20 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sandz\Documents\GitHub\SkyExplorer\src\frontend\public" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="service" />
+    </key>
+  </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="JavaScript Debug.index.html (2)">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -192,16 +171,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WikipediaAPI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="WikipediaAPI" />
-      <module name="SkyExplorer" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="cityinfo.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/cityinfo.html" useBuiltInWebServerPort="true">
-      <method v="2" />
-    </configuration>
     <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/views/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -209,6 +178,9 @@
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/index.html" useBuiltInWebServerPort="true">
@@ -233,6 +205,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.index.html (2)" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
@@ -265,6 +238,7 @@
       <workItem from="1744120804268" duration="8102000" />
       <workItem from="1747126719567" duration="2675000" />
       <workItem from="1748853572942" duration="812000" />
+      <workItem from="1749243645381" duration="1293000" />
     </task>
     <task id="LOCAL−00001" summary="nytt">
       <option name="closed" value="true" />
