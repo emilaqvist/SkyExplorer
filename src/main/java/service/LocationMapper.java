@@ -15,10 +15,10 @@ public class LocationMapper {
     private static final Map<String, String> flightIdMapping = new HashMap<>();
 
     static {
-        flightIdMapping.put("Stockholm", "STOC");
+        flightIdMapping.put("Stockholm", "ARN");
         flightIdMapping.put("Oslo", "OSL");
 
-        flightIdMapping.put("Stockholm", "STOC");
+        flightIdMapping.put("Stockholm", "ARN");
         flightIdMapping.put("Göteborg", "GOT");
         flightIdMapping.put("Malmö", "MMX");
         flightIdMapping.put("Oslo", "OSL");
