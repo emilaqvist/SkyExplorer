@@ -222,6 +222,9 @@ function displayResults(data) {
     <a href="attractions.html?city=${encodeURIComponent(userDestination)}" class="btn btn-primary">
       <i class="bi bi-map"></i> Utforska ${userDestination}
     </a>
+     <a href="cityinfo.html?city=${encodeURIComponent(userDestination)}" class="btn btn-secondary">
+        <i class="bi bi-info-circle"></i> Om ${userDestination} 
+     </a>
   </div>
 `
 

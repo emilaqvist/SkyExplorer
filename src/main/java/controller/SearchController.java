@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import dto.CityInfo;
 import io.javalin.Javalin;
 import dto.FlightResult;
 import service.*;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Denna kontroller klass tar ihop många tjänster och returnerar en sk. mashup flyg väder och sevärdheter.
  * @author Emil
  * @author Mahyar
+ * @author Amer
  **/
 public class SearchController {
     private static FlightService flightService;
@@ -92,6 +94,25 @@ public class SearchController {
                 context.status(e.getHttpStatus()).result(gson.toJson(errorResponse));
             }
         });
+
+
+        app.get("/cityinfo", context -> {
+            String city = context.queryParam("city");
+
+            if (city == null || city.isEmpty()) {
+                context.status(400).result("{\"error\": \"Stad måste anges\"}");
+                return;
+            }
+
+            try {
+                CityService cityService = new CityService();
+                CityInfo cityInfo = cityService.getCityInfo(city);
+                context.result(gson.toJson(cityInfo));
+            } catch (Exception e) {
+                context.status(500).result("{\"error\": \"Kunde inte hämta information om staden\"}");
+            }
+        });
+
 
         app.get("/attractions", context -> {
             String city = context.queryParam("city");

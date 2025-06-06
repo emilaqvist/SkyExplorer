@@ -17,16 +17,4 @@ public class CityInfo {
         this.url = url;
         this.imageUrl = imageUrl;
     }
-
-    // Getters och Setters
-    public String getTitle() { return title; }
-    public String getDescription() { return description; }
-    public String getUrl() { return url; }
-    public String getImageUrl() { return imageUrl; }
-
-    public void setTitle(String title) { this.title = title; }
-    public void setDescription(String description) { this.description = description; }
-    public void setUrl(String url) { this.url = url; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
-
 }

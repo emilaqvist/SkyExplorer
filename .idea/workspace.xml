@@ -5,45 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
-      <change afterPath="$PROJECT_DIR$/src/frontend/cityinfo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dto/CityInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/service/CityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/Flight.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Flight.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/api-docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/api-docs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/attractions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/attractions.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/attractions.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/faq.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/logo.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/logo.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/public/whether.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/whether.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/Flight.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/api-docs.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/attractions.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/attractions.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/cityinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/cityinfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/faq.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/logo.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/whether.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/SearchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dto/CityInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/CityInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/Flight.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/api-docs.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/attractions.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/attractions.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/faq.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/logo.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/public/whether.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/Flight.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/api-docs.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/attractions.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/attractions.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/faq.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/logo.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/public/whether.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/FlightSearchException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/FlightSearchException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/LocationMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/LocationMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/service/WeatherService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/service/WeatherService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/SearchController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/frontend/style.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +86,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Testtt",
+    "git-widget-placeholder": "Testa-Resources",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/sandz/Desktop/Downloads Edge/EndlessTodoList/EndlessTodoList",
     "node.js.detected.package.eslint": "true",
@@ -122,6 +102,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sandz\Documents\GitHub\SkyExplorer\src\main\resources\public" />
       <recent name="C:\Users\sandz\Documents\GitHub\SkyExplorer\src\frontend\public" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -175,6 +156,9 @@
       <method v="2" />
     </configuration>
     <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/views/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html (2)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/public/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/index.html" useBuiltInWebServerPort="true">
@@ -239,6 +223,7 @@
       <workItem from="1747126719567" duration="2675000" />
       <workItem from="1748853572942" duration="812000" />
       <workItem from="1749243645381" duration="1293000" />
+      <workItem from="1749250759971" duration="1051000" />
     </task>
     <task id="LOCAL−00001" summary="nytt">
       <option name="closed" value="true" />
