@@ -19,7 +19,7 @@ public class App {
     public static void main(String[] args) {
         Javalin app = Javalin.create(javalinConfig -> {
             javalinConfig.staticFiles.add(staticFileConfig -> {
-                staticFileConfig.directory = "/public";
+                staticFileConfig.directory = "/frontend/public";
                 staticFileConfig.location = Location.CLASSPATH;
             });
 
