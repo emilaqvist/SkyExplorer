@@ -6,24 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Flight.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/api-docs.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/attractions.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/attractions.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/cityinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/cityinfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/faq.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/logo.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/whether.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/SearchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dto/CityInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/CityInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/SearchController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/SearchController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/frontend/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/api-docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/api-docs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/attractions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/cityinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/cityinfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/faq.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +62,8 @@
     "Application.service.Main.executor": "Run",
     "JavaScript Debug.api-docs.html.executor": "Run",
     "JavaScript Debug.attractions.html.executor": "Run",
+    "JavaScript Debug.cityinfo.html.executor": "Run",
+    "JavaScript Debug.faq.html.executor": "Run",
     "JavaScript Debug.flight.html.executor": "Run",
     "JavaScript Debug.index.html (1).executor": "Run",
     "JavaScript Debug.index.html (2).executor": "Run",
@@ -114,7 +102,7 @@
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.index.html (2)">
+  <component name="RunManager" selected="JavaScript Debug.api-docs.html">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -152,16 +140,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/views/index.html" useBuiltInWebServerPort="true">
+    <configuration name="api-docs.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/public/api-docs.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="faq.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/public/faq.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/views/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="index.html (2)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/public/index.html" useBuiltInWebServerPort="true">
-      <method v="2" />
-    </configuration>
-    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/index.html" useBuiltInWebServerPort="true">
@@ -189,6 +177,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.api-docs.html" />
+        <item itemvalue="JavaScript Debug.faq.html" />
         <item itemvalue="JavaScript Debug.index.html (2)" />
         <item itemvalue="Application.App" />
       </list>
@@ -223,7 +213,7 @@
       <workItem from="1747126719567" duration="2675000" />
       <workItem from="1748853572942" duration="812000" />
       <workItem from="1749243645381" duration="1293000" />
-      <workItem from="1749250759971" duration="1051000" />
+      <workItem from="1749250759971" duration="1420000" />
     </task>
     <task id="LOCAL−00001" summary="nytt">
       <option name="closed" value="true" />
