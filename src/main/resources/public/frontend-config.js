@@ -1,0 +1,3 @@
+const CONFIG = {
+    CURRENCY_API_KEY: "e7ac48d8bec109790c93c408"
+};

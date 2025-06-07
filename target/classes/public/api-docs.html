@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SkyExplorer API Dokumentation</title>
-    <link rel="stylesheet" href="/src/frontend/style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
@@ -85,6 +85,29 @@
 
         <h4>Svar:</h4>
         <p>API:et returnerar en array av sevärdheter med information som namn, beskrivning, kategori och plats.</p>
+
+        <h3><span class="method get">GET</span> <span class="endpoint">/cityinfo</span></h3>
+        <p>Hämtar information om en stad från svenska Wikipedia.</p>
+
+        <h4>Parametrar:</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Typ</th>
+                <th>Beskrivning</th>
+                <th>Obligatorisk</th>
+            </tr>
+            <tr>
+                <td>city</td>
+                <td>string</td>
+                <td>Namnet på staden</td>
+                <td><span class="required">Ja</span></td>
+            </tr>
+        </table>
+
+        <h4>Svar:</h4>
+        <p>Returnerar ett JSON-objekt med information om staden, inklusive titel, kort beskrivning och bild (om tillgänglig) samt Wikipedia-länk.</p>
+
     </div>
 
     <div class="section">
@@ -224,6 +247,38 @@
                 <td>URL till en bild av sevärdheten (kan vara null)</td>
             </tr>
         </table>
+
+
+        <h3>CityInfo</h3>
+        <p>Representerar grundläggande information om en stad hämtad från Wikipedia.</p>
+        <table>
+            <tr>
+                <th>Fält</th>
+                <th>Typ</th>
+                <th>Beskrivning</th>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>string</td>
+                <td>Stadens titel (enligt Wikipedia)</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>string</td>
+                <td>Kort sammanfattning av staden</td>
+            </tr>
+            <tr>
+                <td>imageUrl</td>
+                <td>string</td>
+                <td>Länk till stadens bild (om tillgänglig)</td>
+            </tr>
+            <tr>
+                <td>wikiUrl</td>
+                <td>string</td>
+                <td>Länk till stadens Wikipedia-sida</td>
+            </tr>
+        </table>
+
     </div>
 
     <div class="section">
@@ -360,6 +415,18 @@
     "imageUrl": null
   }
 ]</pre>
+
+        <h3>Exempel på anrop för stadinformation:</h3>
+        <pre>GET http://localhost:7000/cityinfo?city=Stockholm</pre>
+
+        <h3>Exempel på svar för stadinformation:</h3>
+        <pre>{
+  "title": "Stockholm",
+  "description": "Stockholm är Sveriges huvudstad och största tätort.",
+  "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/xyz.jpg",
+  "wikiUrl": "https://sv.wikipedia.org/wiki/Stockholm"
+}</pre>
+
 
         <h3>Exempel på JavaScript-kod för att anropa API:et:</h3>
         <pre>// Exempel på hur man anropar flygsöknings-API:et med JavaScript
