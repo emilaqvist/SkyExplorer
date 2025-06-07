@@ -15,8 +15,11 @@
     <div class="section">
         <h2>Endpoints</h2>
 
-        <h3><span class="method get">GET</span> <code>/flights</code></h3>
-        <p>Hämtar flygresultat mellan två destinationer samt väderprognos för destinationen. Detta är en mashup-endpoint.</p>
+        <h3><span class="method get">GET</span> <code>api/v1/flights</code></h3>
+        <p>
+            Hämtar flygresultat mellan två destinationer samt väderprognos för destinationen. <br>
+            Detta är en mashup-endpoint – väderdata och resesökinfo ingår i svaret.
+        </p>
         <table>
             <tr><th>Parameter</th><th>Typ</th><th>Beskrivning</th><th>Obligatorisk</th></tr>
             <tr><td>from</td><td>string</td><td>Avreseort eller kod</td><td>Ja</td></tr>
@@ -30,7 +33,23 @@
 
         <h4>Svar:</h4>
         <pre>{
-  "flights": [...],
+  "flights": [
+    {
+      "price": 149.99,
+      "formattedPrice": "€149.99",
+      "departureCity": "Stockholm",
+      "arrivalCity": "London",
+      "departure": "2025-06-08T09:00:00",
+      "arrival": "2025-06-08T10:45:00",
+      "duration": 105,
+      "stops": 0,
+      "airline": "Norwegian",
+      "flightNumber": "DY445",
+      "departureAirport": "ARN",
+      "arrivalAirport": "LGW",
+      "segments": [...]
+    }
+  ],
   "weathers": {
     "timelines": {
       "hourly": [
@@ -51,36 +70,13 @@
   }
 }</pre>
 
-        <h3><span class="method get">GET</span> <code>/weathers</code></h3>
-        <p>(Endast för test/särskilt bruk) Hämtar väderdata separat. Används normalt via <code>/flights</code>.</p>
-        <table>
-            <tr><th>Parameter</th><th>Typ</th><th>Beskrivning</th><th>Obligatorisk</th></tr>
-            <tr><td>city</td><td>string</td><td>Destinationens namn</td><td>Ja</td></tr>
-        </table>
-        <h4>Exempel:</h4>
-        <code>GET /api/v1/weathers?city=London</code>
-
-        <h4>Svar:</h4>
-        <pre>{
-  "timelines": {
-    "hourly": [
-      {
-        "time": "2025-06-08T12:00:00Z",
-        "values": {
-          "temperature": 22.5,
-          "weatherCode": 1001
-        }
-      }
-    ]
-  }
-}</pre>
-
-        <h3><span class="method get">GET</span> <code>/cities</code></h3>
+        <h3><span class="method get">GET</span> <code>api/v1/cities</code></h3>
         <p>Returnerar fakta om en stad från Wikipedia.</p>
         <table>
             <tr><th>Parameter</th><th>Typ</th><th>Beskrivning</th><th>Obligatorisk</th></tr>
             <tr><td>city</td><td>string</td><td>Stadens namn</td><td>Ja</td></tr>
         </table>
+
         <h4>Exempel:</h4>
         <code>GET /api/v1/cities?city=Berlin</code>
 
@@ -92,12 +88,13 @@
   "wikiUrl": "https://sv.wikipedia.org/wiki/Berlin"
 }</pre>
 
-        <h3><span class="method get">GET</span> <code>/attractions</code></h3>
+        <h3><span class="method get">GET</span> <code>api/v1/attractions</code></h3>
         <p>Hämtar sevärdheter för en viss stad.</p>
         <table>
             <tr><th>Parameter</th><th>Typ</th><th>Beskrivning</th><th>Obligatorisk</th></tr>
             <tr><td>city</td><td>string</td><td>Stadens namn</td><td>Ja</td></tr>
         </table>
+
         <h4>Exempel:</h4>
         <code>GET /api/v1/attractions?city=Rome</code>
 
@@ -155,19 +152,6 @@ fetch(`http://localhost:7000/api/v1/flights?from=${from}&destination=${destinati
   .catch(err => {
     console.error("Fel:", err.message);
   });
-        </pre>
-    </div>
-
-    <div class="section">
-        <h2>Extern API: Valutakonvertering</h2>
-        <p>Denna tjänst kommer från en tredje part (ExchangeRate API). Den är <strong>inte</strong> en del av vårt backend.</p>
-        <code>https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/USD/SEK/100</code>
-
-        <h4>Svar:</h4>
-        <pre>{
-  "result": "success",
-  "conversion_result": 1090.0
-}</pre>
     </div>
 
     <footer>

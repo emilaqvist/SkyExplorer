@@ -15,10 +15,14 @@
     <div class="section">
         <h2>Endpoints</h2>
 
-        <h3><span class="method get">GET</span> <code>/flights</code></h3>
+        <h3><span class="method get">GET</span> <code>api/v1/flights</code></h3>
         <p>
             Hämtar flygresultat mellan två destinationer samt väderprognos för destinationen. <br>
             Detta är en mashup-endpoint – väderdata och resesökinfo ingår i svaret.
+            Detta är en mashup-endpoint som kombinerar data från två externa
+            API:er – flyginformation och väderprognoser – och returnerar detta i ett gemensamt svar,
+            vilket ger användaren både resealternativ och väderutsikter i ett sammanhang.
+
         </p>
         <table>
             <tr><th>Parameter</th><th>Typ</th><th>Beskrivning</th><th>Obligatorisk</th></tr>
@@ -70,7 +74,7 @@
   }
 }</pre>
 
-        <h3><span class="method get">GET</span> <code>/cities</code></h3>
+        <h3><span class="method get">GET</span> <code>api/v1/cities</code></h3>
         <p>Returnerar fakta om en stad från Wikipedia.</p>
         <table>
             <tr><th>Parameter</th><th>Typ</th><th>Beskrivning</th><th>Obligatorisk</th></tr>
@@ -88,7 +92,7 @@
   "wikiUrl": "https://sv.wikipedia.org/wiki/Berlin"
 }</pre>
 
-        <h3><span class="method get">GET</span> <code>/attractions</code></h3>
+        <h3><span class="method get">GET</span> <code>api/v1/attractions</code></h3>
         <p>Hämtar sevärdheter för en viss stad.</p>
         <table>
             <tr><th>Parameter</th><th>Typ</th><th>Beskrivning</th><th>Obligatorisk</th></tr>
@@ -152,19 +156,6 @@ fetch(`http://localhost:7000/api/v1/flights?from=${from}&destination=${destinati
   .catch(err => {
     console.error("Fel:", err.message);
   });
-</pre>
-    </div>
-
-    <div class="section">
-        <h2>Extern API: Valutakonvertering</h2>
-        <p>Denna tjänst kommer från en tredje part (ExchangeRate API). Den är inte en del av vårt backend.</p>
-        <code>https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/USD/SEK/100</code>
-
-        <h4>Svar:</h4>
-        <pre>{
-  "result": "success",
-  "conversion_result": 1090.0
-}</pre>
     </div>
 
     <footer>
