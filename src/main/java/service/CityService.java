@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
  * using the Wikimedia REST API.
  * It returns key data such as title, description, image, and page URL.
  *
- * Author: Amer Sabaredzovic
+ * @author  Amer Sabaredzovic
  */
 public class CityService {
 
