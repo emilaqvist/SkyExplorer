@@ -28,8 +28,8 @@ import java.util.Locale;
  *
  * The API credentials are loaded via {@link Configurator}.
  *
- * @author Mahyar
- * @author Emil
+ * @author Mahyar Baghal Shirvan
+ * @author Emil Åqvist
  */
 public class AttractionService {
 

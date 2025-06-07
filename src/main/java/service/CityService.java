@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
  * It returns key data such as title, description, image, and page URL.
  *
  * @author  Amer Sabaredzovic
+ * @author Algot Olofsson
  */
 public class CityService {
 

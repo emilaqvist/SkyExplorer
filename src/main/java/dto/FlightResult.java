@@ -8,7 +8,7 @@ import java.util.List;
  * Contains information such as price, departure and arrival data, duration, number of stops, airline, and a list of flight segments.
  *
  *
- * @author Mahyar
+ * @author Mahyar Baghal Shirvan
  */
 public class FlightResult {
     private int price;

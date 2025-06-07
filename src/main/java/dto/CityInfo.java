@@ -5,6 +5,7 @@ package dto;
  * Includes the city's title, a short description, an image URL, and a link to the full article.
  *
  * @author Amer Sabaredzovic
+ * @author Algot
  */
 public class CityInfo {
     private String title;  // Namnet på sevärdheten

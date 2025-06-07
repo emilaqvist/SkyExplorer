@@ -15,7 +15,7 @@ import lombok.Data;
  * This class uses Lombok's {@code @Data} and {@code @Builder} annotations
  * to automatically generate getters, setters, toString, equals, hashCode, and a builder pattern.
  *
- * @author Mahyar
+ * @author Mahyar Baghal Shirvan
  */
 @Data
 @Builder

@@ -7,8 +7,8 @@ import java.util.Map;
 /**
  * The {@code LocationMapper} class provides a mapping between city names and their corresponding airport codes.
  * This mapping is used for API calls that require airport codes instead of city names.
- * @author  Emil
- * @author Mahyar
+ * @author  Emil Åqvist
+ * @author Mahyar Baghal Shirvan
  */
 public class LocationMapper {
     // map för flygplatsers, förkortning som behövs för API för

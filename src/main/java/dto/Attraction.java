@@ -4,8 +4,8 @@ package dto;
  * Represents a tourist attraction or point of interest.
  * Includes core metadata such as name, category types, coordinates, description, and image URL.
  *
- * @author Mahyar
- * @author Emil
+ * @author Mahyar Baghal Shirvan
+ * @author Emil Åqvist
  */
 public class Attraction {
     private String xid;

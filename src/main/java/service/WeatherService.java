@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
  * It builds the request URL, sends the GET request, and returns the response in JSON format.
  * The API key is securely retrieved via the {@link Configurator} class.
  *
- * Author: Emil
+ * Author: Emil Åqvist
  */
 public class WeatherService {
 

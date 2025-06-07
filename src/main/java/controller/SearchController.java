@@ -20,9 +20,9 @@ import java.util.Map;
  * This controller integrates multiple services and returns a "mashup"
  * containing flight, weather, and attraction information.
  *
- * @author Emil
- * @author Mahyar
- * @author Amer
+ * @author Emil Åqvist
+ * @author Mahyar Baghal Shirvan
+ * @author Amer Sabaredzovic
  */
 public class SearchController {
     private static FlightService flightService;

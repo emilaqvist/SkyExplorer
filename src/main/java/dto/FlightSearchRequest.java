@@ -12,7 +12,7 @@ import java.util.List;
  * Default values are applied for optional fields like cabin class, number of children or infants,
  * currency, and stops.
  *
- * @author Mahyar
+ * @author Mahyar Baghal Shirvan
  */
 public class FlightSearchRequest {
     private String fromLocation;

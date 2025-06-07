@@ -9,7 +9,7 @@ import misc.Configurator;
  * This class is responsible for initializing and starting the Javalin web server,
  * configuring static file handling, enabling CORS settings, and registering API routes.
  *
- * @author Emil
+ * @author Emil Åqvist
  */
 public class App {
     /**

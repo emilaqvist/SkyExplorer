@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
  *
  * This class uses {@link HttpClient} for HTTP communication and Gson for JSON processing.
  *
- * @author Mahyar
+ * @author Mahyar Baghal Shirvan
+ * @author Algot Olofsson
  */
 public class FlightService {
     private final String apiKey;
