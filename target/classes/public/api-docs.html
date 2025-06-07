@@ -24,8 +24,9 @@
     <div class="section">
         <h2>Endpoints</h2>
 
-        <h3><span class="method get">GET</span> <span class="endpoint">/search</span></h3>
-        <p>Söker efter flyg och hämtar väderinformation för destinationen.</p>
+        <h3><span class="method get">GET</span> <span class="endpoint">/api/v1/flights</span></h3>
+        <p>Söker efter flyg. Svaret innehåller även aktuell väderinformation för destinationen.</p>
+
 
         <h4>Parametrar:</h4>
         <table>
@@ -394,7 +395,7 @@
 }</pre>
 
         <h3>Exempel på anrop för sevärdheter:</h3>
-        <pre>GET http://localhost:7000/attractions?city=London</pre>
+        <pre>GET http://localhost:7000/api/v1/attractions?city=London</pre>
 
         <h3>Exempel på svar för sevärdheter:</h3>
         <pre>[

@@ -56,8 +56,10 @@ public class CityService {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         // Kontrollera om API-svaret har statuskod 200 (OK)
-        if (response.statusCode() != 200) {
-            throw new Exception("Wikimedia REST API gav fel kod: " + response.statusCode());
+        if (response.statusCode() == 404) {
+            return null;
+        } else if (response.statusCode() != 200) {
+            throw new Exception("Wikimedia REST API gav felkod: " + response.statusCode());
         }
 
         // Parsar JSON-svaret till ett JsonObject

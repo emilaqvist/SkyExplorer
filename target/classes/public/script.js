@@ -40,7 +40,7 @@ async function searchFlightsAndWeather() {
   showLoading(true)
 
   try {
-    const url = `http://localhost:7000/search?from=${encodeURIComponent(departureCity)}&destination=${encodeURIComponent(destinationCity)}&departDate=${encodeURIComponent(departureDate)}`
+    const url = `http://localhost:7000/api/v1/flights?from=${encodeURIComponent(departureCity)}&destination=${encodeURIComponent(destinationCity)}&departDate=${encodeURIComponent(departureDate)}`
     console.log("Searching flights & weather with URL:", url)
 
     const response = await fetch(url)
@@ -158,10 +158,10 @@ function displayResults(data) {
   // Weather
   html += `<h3 class="mt-4">Weather Forecast for ${userDestination}</h3>`
 
-  if (data.weather?.timelines?.hourly) {
+  if (data.weathers?.timelines?.hourly) {
     const dailyWeather = {}
 
-    data.weather.timelines.hourly.forEach((hour) => {
+    data.weathers.timelines.hourly.forEach((hour) => {
       const date = new Date(hour.time)
       const dateString = date.toLocaleDateString()
 

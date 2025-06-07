@@ -46,7 +46,7 @@
       $("#attractions-container").empty();
       $("#error-message").hide();
 
-    const url = `http://localhost:7000/cityinfo?city=${encodeURIComponent(city)}`;
+    const url = `http://localhost:7000/api/v1/cities?city=${encodeURIComponent(city)}`;
 
 
     fetch(url)

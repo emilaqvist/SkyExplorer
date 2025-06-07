@@ -32,9 +32,9 @@ public class SearchController {
     /**
      * Registers all routes for the Javalin server.
      * This includes:
-     * - /search: for flights and weather
-     * - /cityinfo: for general city description
-     * - /attractions: for tourist places and POIs
+     * - /api/v1/flights: for flights and weather
+     * - /api/v1/cities: for general city description
+     * - /api/v1/attractions: for tourist places and POIs
      *
      * @param app The Javalin application instance
      * @param rapidApiKey The API key used to access the flight API
@@ -44,7 +44,7 @@ public class SearchController {
         flightService = new FlightService(rapidApiKey);
         weatherService = new WeatherService();
 
-        app.get("/search", context -> {
+        app.get("/api/v1/flights", context -> {
             String from = context.queryParam("from");
             String destination = context.queryParam("destination");
             String departDate = context.queryParam("departDate");
@@ -81,14 +81,23 @@ public class SearchController {
                 System.out.println("DATE SOM SKICKAS TILL BACKEND: " + request.getDepartDate());
                 List<FlightResult> flights = flightService.searchFlights(request);
                 if (flights.isEmpty()) {
-                    System.out.println("Inga flyg hittades från API:t!");
+                    Map<String, String> errorResponse = new HashMap<>();
+                    errorResponse.put("error", "Inga flyg hittades");
+                    context.status(404).result(gson.toJson(errorResponse));
+                    return;
                 }
-
-                String weatherJson = weatherService.getWeatherData(destination);
 
                 Map<String,Object> combined = new HashMap<>();
                 combined.put("flights", flights);
-                combined.put("weather", gson.fromJson(weatherJson, Object.class));
+
+                try {
+                    String weatherJson = weatherService.getWeatherData(destination);
+                    combined.put("weathers", gson.fromJson(weatherJson, Object.class));
+                } catch (Exception e) {
+                    Map<String, String> weatherError = new HashMap<>();
+                    weatherError.put("error", "Kunde inte hämta väderdata: " + e.getMessage());
+                    combined.put("weathers", weatherError);
+                }
 
                 Map<String, Object> searchInfo = new HashMap<>();
                 searchInfo.put("departureCity", from);
@@ -106,7 +115,7 @@ public class SearchController {
         });
 
 
-        app.get("/cityinfo", context -> {
+        app.get("/api/v1/cities", context -> {
             String city = context.queryParam("city");
 
             if (city == null || city.isEmpty()) {
@@ -117,6 +126,10 @@ public class SearchController {
             try {
                 CityService cityService = new CityService();
                 CityInfo cityInfo = cityService.getCityInfo(city);
+                if (cityInfo == null) {
+                    context.status(404).result("{\"error\": \"Ingen information hittades för staden\"}");
+                    return;
+                }
                 context.result(gson.toJson(cityInfo));
             } catch (Exception e) {
                 context.status(500).result("{\"error\": \"Kunde inte hämta information om staden\"}");
@@ -124,7 +137,7 @@ public class SearchController {
         });
 
 
-        app.get("/attractions", context -> {
+        app.get("/api/v1/attractions", context -> {
             String city = context.queryParam("city");
 
             if (city == null || city.isEmpty()) {
@@ -137,7 +150,15 @@ public class SearchController {
             try {
                 AttractionService attractionService = new AttractionService();
                 List<Attraction> attractions = attractionService.getAttractionsForCity(city);
-                context.result(gson.toJson(attractions));
+
+                if (attractions == null || attractions.isEmpty()) {
+                    Map<String, String> errorResponse = new HashMap<>();
+                    errorResponse.put("error", "Inga attraktioner hittades för staden");
+                    context.status(404).result(gson.toJson(errorResponse));
+                    return;
+                }
+
+                context.status(200).result(gson.toJson(attractions));
             } catch (Exception e) {
                 Map<String, String> errorResponse = new HashMap<>();
                 errorResponse.put("error", "Fel vid hämtning av attraktioner: " + e.getMessage());
