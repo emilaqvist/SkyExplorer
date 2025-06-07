@@ -292,6 +292,7 @@ function showAlert(message, type = "danger") {
 }
 
 // Currency Converter
+// Allt om Currency är skriven av Algot
 $(document).ready(function () {
   let fromCurrency = null;
   let toCurrency = null;
