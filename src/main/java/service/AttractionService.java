@@ -21,10 +21,16 @@ import java.util.Locale;
  * Service class responsible for retrieving tourist attractions and points of interest
  * for a specified city using the OpenTripMap API.
  *
+ * This service works in three steps:
+ * 1. Get coordinates of the city.
+ * 2. Fetch nearby places based on coordinates.
+ * 3. Retrieve detailed data for each place (e.g., description, image, coordinates).
+ *
+ * The API credentials are loaded via {@link Configurator}.
+ *
  * @author Mahyar
  * @author Emil
  */
-
 public class AttractionService {
 
     private final HttpClient httpClient;
@@ -45,11 +51,11 @@ public class AttractionService {
 
 
     /**
-     * Retrieves a list of attractions for a specified city.
+     * Retrieves a list of tourist attractions for the specified city.
      *
-     * @param city The name of the city to find attractions for
-     * @return A list of Attraction objects containing details about points of interest
-     * @throws Exception If an error occurs during any step of the process, including API communication errors
+     * @param city The name of the city to retrieve attractions for.
+     * @return A list of {@link Attraction} objects containing detailed information.
+     * @throws Exception If any API request or parsing step fails.
      */
     public List<Attraction> getAttractionsForCity(String city) throws Exception {
         // hämta koordinates för att hämta attractions, asså places
@@ -70,9 +76,9 @@ public class AttractionService {
     /**
      * Retrieves the geographic coordinates (latitude and longitude) for a specified city.
      *
-     * @param city The name of the city to get coordinates for
-     * @return An array of doubles where index 0 is latitude and index 1 is longitude
-     * @throws Exception If the API request fails or returns an error status code
+     * @param city The name of the city to look up.
+     * @return An array with latitude at index 0 and longitude at index 1.
+     * @throws Exception If the API call fails or returns an error status code.
      */
     private double[] getCoordinates(String city) throws Exception {
         // Koda stadsnamnet för URL
@@ -108,14 +114,14 @@ public class AttractionService {
     }
 
     /**
-     * Retrieves a list of places near the specified coordinates.
+     * Retrieves a list of places near the given geographic location.
      *
-     * @param lat The latitude coordinate
-     * @param lon The longitude coordinate
-     * @param radius The search radius in meters
-     * @param limit The maximum number of results to return
-     * @return A filtered list of Attraction objects
-     * @throws Exception If the API request fails or returns an error status code
+     * @param lat    Latitude coordinate.
+     * @param lon    Longitude coordinate.
+     * @param radius Search radius in meters.
+     * @param limit  Maximum number of results to retrieve.
+     * @return A list of filtered {@link Attraction} objects.
+     * @throws Exception If the API call fails or response is invalid.
      */
     private List<Attraction> getPlacesNearby(double lat, double lon, int radius, int limit) throws Exception {
         // Bygg URL för att hämta platser i närheten, fick använda US locale allt annat blev fel
@@ -163,10 +169,10 @@ public class AttractionService {
     }
 
     /**
-     * Determines if a place is interesting based on its categories.
+     * Determines whether a place is interesting based on its category tags.
      *
-     * @param kinds A comma-separated string of categories associated with the place
-     * @return true if the place belongs to at least one interesting category, false otherwise
+     * @param kinds A comma-separated list of category keywords.
+     * @return {@code true} if the place is considered interesting; otherwise {@code false}.
      */
     private boolean isInterestingPlace(String kinds) {
         // Filtrera platser,  man kan filtrera mer om man vill genom att ta bort kategorierna
@@ -186,10 +192,11 @@ public class AttractionService {
     }
 
     /**
-     * Retrieves detailed information for a specific attraction.
+     * Enriches an {@link Attraction} object with detailed information from the API,
+     * including description, image URL, and coordinates.
      *
-     * @param attraction The Attraction object to update with detailed information
-     * @throws Exception If an error occurs during the API request or response parsing
+     * @param attraction The attraction to enrich.
+     * @throws Exception If the API call fails or parsing fails.
      */
     private void getPlaceDetails(Attraction attraction) throws Exception {
         // Bygg URL för att hämta detaljer om en plats

@@ -12,27 +12,31 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 /**
- * CityService ansvarar för att hämta information om en stad från svenska Wikipedia
- * genom att använda Wikimedia REST API.
+ * Service class responsible for retrieving city information from the Swedish Wikipedia
+ * using the Wikimedia REST API.
+ * It returns key data such as title, description, image, and page URL.
  *
- * @author Amer Sabaredzovic
+ * Author: Amer Sabaredzovic
  */
 public class CityService {
 
     // HTTP-klient som används för att skicka HTTP-förfrågningar
     private final HttpClient httpClient;
 
-    // Konstruktor som initierar HTTP-klienten
+    /**
+     * Constructor that initializes the HTTP client.
+     */
     public CityService() {
         this.httpClient = HttpClient.newHttpClient();
     }
 
     /**
-     * Hämtar information om en stad från svenska Wikipedia.
+     * Fetches basic information about a city from the Swedish Wikipedia.
      *
-     * @param cityName Namnet på staden att hämta information om
-     * @return Ett CityInfo-objekt som innehåller stadens titel, beskrivning, bild och Wikipedia-länk
-     * @throws Exception Om något går fel vid API-anropet eller JSON-hanteringen
+     * @param cityName The name of the city to retrieve information for.
+     * @return A {@link CityInfo} object containing the title, short description,
+     *         image URL (if available), and a link to the full Wikipedia page.
+     * @throws Exception If the API request fails or the response format is unexpected.
      */
     public CityInfo getCityInfo(String cityName) throws Exception {
         // Skapa URL med korrekt kodning för stadens namn

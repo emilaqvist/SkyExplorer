@@ -11,8 +11,11 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Service klass för att hämta väderdata från Tomorow.io's API.
- * @author Emil
+ * Service class responsible for fetching weather data from the Tomorrow.io API.
+ * It builds the request URL, sends the GET request, and returns the response in JSON format.
+ * The API key is securely retrieved via the {@link Configurator} class.
+ *
+ * Author: Emil
  */
 public class WeatherService {
 
@@ -20,9 +23,10 @@ public class WeatherService {
     private static final String URL_BASE = "https://api.tomorrow.io/v4/weather/forecast";
 
     /**
-     * Denna metod hämtar väderdata för en inputtad plats.
-     * @param location Platsen (Stad) där väderdatan skall hämtas (det stället vi vill få info om)
-     * @return En JSON sträng med väderdata, alt felmeddelande om något har gått fel.
+     * Fetches weather forecast data for the specified location.
+     *
+     * @param location the city or location for which the weather data should be fetched.
+     * @return a JSON string containing the weather forecast data, or an error message if the request fails.
      */
     public String getWeatherData(String location) {
 

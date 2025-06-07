@@ -5,16 +5,19 @@ import io.javalin.http.staticfiles.Location;
 import misc.Configurator;
 
 /**
- * Main klassen till applikationen, den har som ansvarsområde att starta våran JavaLin server till webben.
- * Klassen initierar alltså servern, samt kallar på klasserna som skapar API routesen.
+ * Entry point of the application.
+ * This class is responsible for initializing and starting the Javalin web server,
+ * configuring static file handling, enabling CORS settings, and registering API routes.
+ *
  * @author Emil
  */
 public class App {
     /**
-     * Main metoden till appen.
-     * Startar javalin servern på port 7000, gör CORS inställningar och sedan gör ett call till register routes.
-     * Funkar det så skrivs prints ut i loggen.
-     * @param args
+     * Main method that starts the Javalin server on port 7000.
+     * It configures static file serving, applies global CORS headers, and sets up the main route.
+     * Also registers API endpoints by calling the SearchController.
+     *
+     * @param args Command-line arguments (not used)
      */
     public static void main(String[] args) {
         Javalin app = Javalin.create(javalinConfig -> {

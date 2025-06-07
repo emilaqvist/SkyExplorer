@@ -5,7 +5,20 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Konfigurationsklass för att läsa in vår propertiesklass där vi lagrar våra topphemliga API nycklar.
+ * Utility class for loading application configuration properties from the
+ * {@code application.properties} file located in the classpath.
+ *
+ * This class is primarily used to retrieve API keys or other sensitive configuration
+ * values from a central place.
+ *
+ *
+ * <p>The properties are loaded once statically when the class is first accessed.</p>
+ *
+ * Example usage:
+ *
+ * String apiKey = Configurator.getProperty("FLIGHT_API_KEY");
+ *
+ *
  * @author Emil
  * @author Mahyar
  */
@@ -29,9 +42,11 @@ public class Configurator {
     }
 
     /**
-     * Hämtar property
-     * @param key Namnet kopplat till den API nyckel vi vill åt.
-     * @return API nyckeln hämtat från application.properties.
+     * Retrieves the value of a property based on the provided key.
+     *
+     * @param key The name of the property to look up (e.g., "FLIGHT_API_KEY").
+     * @return The corresponding value from the {@code application.properties} file,
+     *         or {@code null} if the key is not found.
      */
     public static String getProperty(String key){
         return properties.getProperty(key);

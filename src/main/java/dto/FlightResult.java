@@ -5,8 +5,9 @@ import java.util.List;
 
 /**
  * Represents the details of a flight search result.
- * This class contains essential information such as price, departure and arrival details, duration, stops, and airline information.
- * It follows the **Builder pattern** to allow for flexible object creation.
+ * Contains information such as price, departure and arrival data, duration, number of stops, airline, and a list of flight segments.
+ *
+ *
  * @author Mahyar
  */
 public class FlightResult {
@@ -25,9 +26,9 @@ public class FlightResult {
     private List<FlightSegment> segments;
 
     /**
-     * Private constructor for `FlightResult`, used by the Builder class.
+     * Private constructor used by the Builder to instantiate a FlightResult.
      *
-     * @param builder The builder instance used to construct a `FlightResult` object.
+     * @param builder The builder object containing values for all fields.
      */
 
     private FlightResult(Builder builder) {
@@ -48,8 +49,8 @@ public class FlightResult {
 
 
     /**
-     * Builder class for creating `FlightResult` instances.
-     * This allows for a flexible and readable way of constructing a flight result object.
+     * Builder class for constructing FlightResult instances.
+     * Provides fluent-style methods for setting optional fields.
      */
     // Builder class
     public static class Builder {

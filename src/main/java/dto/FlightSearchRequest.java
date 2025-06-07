@@ -4,10 +4,13 @@ import java.util.List;
 
 /**
  * Represents a request for searching flights.
- * This class encapsulates the necessary parameters needed
- * to perform a flight search, such as departure and arrival locations,
- * travel dates, number of passengers, and cabin class.
- * It is tailored for the fly-scraper.p.rapidapi.com API.
+ *
+ * This class encapsulates all necessary parameters for flight search operations,
+ * including departure and arrival locations, date, passenger details, cabin class, currency, and allowed stops.
+ * It is used to communicate structured input to external flight APIs.
+ *
+ * Default values are applied for optional fields like cabin class, number of children or infants,
+ * currency, and stops.
  *
  * @author Mahyar
  */

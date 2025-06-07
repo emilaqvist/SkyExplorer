@@ -11,6 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * A service class responsible for performing flight searches using an external flight API.
+ * It handles request construction, response parsing, and mapping raw JSON data into
+ * structured Java objects such as {@link FlightResult}.
+ *
+ * This class uses {@link HttpClient} for HTTP communication and Gson for JSON processing.
+ *
+ * @author Mahyar
+ */
 public class FlightService {
     private final String apiKey;
     private final HttpClient httpClient;
@@ -30,12 +39,11 @@ public class FlightService {
 
 
     /**
-     * Searches for flights based on the given search request parameters.
+     * Searches for flights based on the provided search criteria.
      *
-     * @param searchRequest the flight search request containing user-specified search criteria.
-     * @return a list of flight results limited to MAX_RESULTS.
-     * @throws FlightSearchException if an error occurs while searching for flights.
-     * @author Mahyar
+     * @param searchRequest an object containing the user's flight search parameters such as origin, destination, date, etc.
+     * @return a list of {@link FlightResult} limited to a maximum number of results.
+     * @throws FlightSearchException if the request is invalid, no data is found, or an error occurs during the API call.
      */
     public List<FlightResult> searchFlights(FlightSearchRequest searchRequest) throws FlightSearchException {
         try {
@@ -76,11 +84,10 @@ public class FlightService {
 
 
     /**
-     * Builds an HTTP request for searching flights.
+     * Builds the HTTP GET request to query the flight API.
      *
-     * @param jsonBody the request body in JSON format.
-     * @return the constructed HttpRequest.
-     * @author Mahyar
+     * @param searchRequest the search parameters.
+     * @return a properly formatted {@link HttpRequest}.
      */
     private HttpRequest buildHttpRequest(FlightSearchRequest searchRequest) {
         String queryParams = String.format(
@@ -105,46 +112,11 @@ public class FlightService {
                 .build();
     }
 
-
     /**
-     * Creates the JSON request body for the flight search request.
+     * Parses the API JSON response and extracts a list of flight results, limited to MAX_RESULTS.
      *
-     * @param searchRequest the search request parameters.
-     * @return the request body as a JSON string.
-     * @author Mahyar
-     */
-    /*private String createRequestBody(FlightSearchRequest searchRequest) {
-        Map<String, Object> requestMap = Map.of(
-                "market", "US",
-                "locale", "en-US",
-                "currency", searchRequest.getCurrency(),
-                "adults", searchRequest.getAdults(),
-                "children", searchRequest.getChildren(),
-                "infants", searchRequest.getInfants(),
-                "cabinClass", searchRequest.getCabinClass(),
-                "stops", searchRequest.getStops(),
-                "sort", "", // tom sträng
-                "flights", List.of(Map.of(
-                        "originSkyId", searchRequest.getFromLocation(),
-                        "destinationSkyId", searchRequest.getToLocation(),
-                        "departDate", searchRequest.getDepartDate()
-                ))
-        )
-
-        String json = gson.toJson(requestMap);
-        System.out.println("SKICKAD REQUESTBODY:\n" + json);
-
-        return json;
-    }*/
-
-
-
-    /**
-     * Parses the API response and limits the results to a maximum number.
-     *
-     * @param responseBody the JSON response from the API.
-     * @return a list of parsed and limited flight results.
-     * @author Mahyar
+     * @param responseBody the raw JSON response body.
+     * @return a list of {@link FlightResult} objects.
      */
     private List<FlightResult> parseAndLimitFlightResponse(String responseBody) {
         JsonObject root = gson.fromJson(responseBody, JsonObject.class);
@@ -165,11 +137,10 @@ public class FlightService {
 
 
     /**
-     * Converts an Itinerary object to a FlightResult object.
+     * Converts a single flight JSON object into a {@link FlightResult} with all relevant details.
      *
-     * @param itinerary the itinerary to convert.
-     * @return a FlightResult object containing structured flight details.
-     * @Mahyar
+     * @param flight the JSON object representing a flight.
+     * @return a structured {@code FlightResult} object.
      */
     private FlightResult convertToFlightResult(JsonObject flight) {
         int duration = flight.getAsJsonObject("duration").get("raw").getAsInt();

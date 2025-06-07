@@ -1,7 +1,9 @@
 package dto;
 
 /**
- * Representerar en attraction med detaljerad information via alla parametrar
+ * Represents basic city information retrieved from Wikipedia.
+ * Includes the city's title, a short description, an image URL, and a link to the full article.
+ *
  * @author Amer Sabaredzovic
  */
 public class CityInfo {

@@ -1,7 +1,9 @@
 package dto;
 
 /**
- * Representerar en attraction med detaljerad information via alla parametrar
+ * Represents a tourist attraction or point of interest.
+ * Includes core metadata such as name, category types, coordinates, description, and image URL.
+ *
  * @author Mahyar
  * @author Emil
  */

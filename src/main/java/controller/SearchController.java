@@ -13,21 +13,31 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * SearchController hanterar endpoints för API för att söka på flyg, hämta väderdata samt sevärdheter.
- * Denna kontroller klass tar ihop många tjänster och returnerar en sk. mashup flyg väder och sevärdheter.
+ * The SearchController handles API endpoints for flight search, weather data,
+ * and city attractions. It serves as a central controller for combining results
+ * into a unified response.
+ *
+ * This controller integrates multiple services and returns a "mashup"
+ * containing flight, weather, and attraction information.
+ *
  * @author Emil
  * @author Mahyar
  * @author Amer
- **/
+ */
 public class SearchController {
     private static FlightService flightService;
     private static WeatherService weatherService;
     private static final Gson gson = new Gson();
 
     /**
-     * Registrerar API route för sökning av flyg, väderlek samt sevärdheter.
-     * @param app Instansen av vår javalin applikation
-     * @param rapidApiKey API nyckeln som hör till flyg APIt
+     * Registers all routes for the Javalin server.
+     * This includes:
+     * - /search: for flights and weather
+     * - /cityinfo: for general city description
+     * - /attractions: for tourist places and POIs
+     *
+     * @param app The Javalin application instance
+     * @param rapidApiKey The API key used to access the flight API
      */
     public static void registerRoutes(Javalin app, String rapidApiKey){
 
