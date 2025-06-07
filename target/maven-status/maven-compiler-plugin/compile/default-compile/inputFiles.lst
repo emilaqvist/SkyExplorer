@@ -1,0 +1,14 @@
+C:\Skola\DA109A\SkyExplorer\src\main\java\controller\App.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\controller\SearchController.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\dto\Attraction.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\dto\CityInfo.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\dto\FlightResult.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\dto\FlightSearchRequest.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\dto\FlightSegment.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\misc\Configurator.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\service\AttractionService.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\service\CityService.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\service\FlightSearchException.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\service\FlightService.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\service\LocationMapper.java
+C:\Skola\DA109A\SkyExplorer\src\main\java\service\WeatherService.java

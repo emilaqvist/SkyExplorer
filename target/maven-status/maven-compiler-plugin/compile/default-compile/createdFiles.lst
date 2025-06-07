@@ -1,0 +1,16 @@
+dto\FlightResult.class
+misc\Configurator.class
+dto\FlightSearchRequest.class
+dto\FlightResult$Builder.class
+service\FlightService.class
+service\AttractionService.class
+service\CityService.class
+service\LocationMapper.class
+controller\App.class
+dto\FlightSegment$FlightSegmentBuilder.class
+controller\SearchController.class
+dto\FlightSegment.class
+dto\CityInfo.class
+service\WeatherService.class
+service\FlightSearchException.class
+dto\Attraction.class

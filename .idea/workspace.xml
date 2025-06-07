@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/api-docs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/api-docs.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/attractions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/attractions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/cityinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/cityinfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +60,7 @@
     "Application.App.executor": "Run",
     "Application.WikipediaAPI.executor": "Run",
     "Application.service.Main.executor": "Run",
+    "Batch.run.executor": "Run",
     "JavaScript Debug.api-docs.html.executor": "Run",
     "JavaScript Debug.attractions.html.executor": "Run",
     "JavaScript Debug.cityinfo.html.executor": "Run",
@@ -70,13 +71,15 @@
     "JavaScript Debug.index.html.executor": "Run",
     "JavaScript Debug.testing.html.executor": "Debug",
     "Maven.SkyExplorer [clean,install].executor": "Run",
+    "Maven.SkyExplorer [clean,package...].executor": "Run",
+    "Maven.SkyExplorer [clean,package].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "Testa-Resources",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/sandz/Desktop/Downloads Edge/EndlessTodoList/EndlessTodoList",
+    "last_opened_file_path": "C:/Skola/DA109A/SkyExplorer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -100,9 +103,11 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />
+      <command value="mvn clean package assembly:single" />
+      <command value="mvn clean package" />
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.api-docs.html">
+  <component name="RunManager" selected="Batch.run">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -140,25 +145,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="run" type="BatchConfigurationType" factoryName="Batch" temporary="true">
+      <module name="SkyExplorer" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Skola\DA109A\SkyExplorer" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="run.bat" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="api-docs.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/public/api-docs.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="faq.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/public/faq.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/views/index.html" useBuiltInWebServerPort="true">
-      <method v="2" />
-    </configuration>
     <configuration name="index.html (2)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/public/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/style.css/frontend/index.html" useBuiltInWebServerPort="true">
-      <method v="2" />
-    </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/index.html" useBuiltInWebServerPort="true">
-      <method v="2" />
-    </configuration>
-    <configuration name="testing.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/testing.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="testing.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/.gitignore/frontend/views/testing.html" useBuiltInWebServerPort="true">
@@ -177,6 +184,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Batch.run" />
         <item itemvalue="JavaScript Debug.api-docs.html" />
         <item itemvalue="JavaScript Debug.faq.html" />
         <item itemvalue="JavaScript Debug.index.html (2)" />
@@ -187,8 +195,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.145" />
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.145" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
       </set>
     </attachedChunks>
   </component>
@@ -214,6 +222,7 @@
       <workItem from="1748853572942" duration="812000" />
       <workItem from="1749243645381" duration="1293000" />
       <workItem from="1749250759971" duration="1420000" />
+      <workItem from="1749312206750" duration="2636000" />
     </task>
     <task id="LOCAL−00001" summary="nytt">
       <option name="closed" value="true" />
