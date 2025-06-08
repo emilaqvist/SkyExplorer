@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="29729ce9-8b97-4cdd-84b0-62151254a1cb" name="Changes" comment="nytt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SkyExplorer-1.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,10 +182,14 @@
     </configuration>
     <recent_temporary>
       <list>
+<<<<<<< Updated upstream
+=======
+        <item itemvalue="Application.App" />
+        <item itemvalue="Batch.run" />
+>>>>>>> Stashed changes
         <item itemvalue="JavaScript Debug.api-docs.html" />
         <item itemvalue="JavaScript Debug.faq.html" />
         <item itemvalue="JavaScript Debug.index.html (2)" />
-        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +223,7 @@
       <workItem from="1748853572942" duration="812000" />
       <workItem from="1749243645381" duration="1293000" />
       <workItem from="1749250759971" duration="1420000" />
-      <workItem from="1749312206750" duration="2636000" />
+      <workItem from="1749312206750" duration="10113000" />
     </task>
     <task id="LOCAL−00001" summary="nytt">
       <option name="closed" value="true" />
