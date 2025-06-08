@@ -46,6 +46,10 @@ SkyExplorer är en mashup-tjänst som hjälper resenärer att planera sina resor
      OPENTRIPMAP_API_KEY= (denna ska va från opentripmap med sevärdheter)
      ```
    - Backend startar på `http://localhost:7000` genom att köra App.java
+   - Fungerar inte detta finns två scripts som startar programmet
+     - Starta programmet med hjälp av scriptfiler:
+       1. run.bat = Om du använder en Windows-dator. Antingen köra det direkt i IntelliJ eller navigera till projektmappen i Utforskar-applikationen på datorn och dubbelklicka på run.bat så skall en webbläsare komma upp automatiskt, samt ett meddelande kommer i terminalen att servern är igång. Öppnas inte webbläsarfönstret automatisk så gå in på en webbläsare och mata in `http://localhost:7000`i addressfältet på webbläsaren och navigera dit. (Föredragen/Testad webbläsare: Microsoft Edge/ Google Chrome)
+       2. run.sh = Om du använder en Mac eller Linux dator. Antingen öppnas det i IntelliJ genom run, eller så navigerar du till projektmappen, hittar run.sh och kör. Först måste man välja körningsrättigheter och detta görs i terminalen. Först navigerar du till konsolen och där inne navigerar du fram till projektmappen (samma mapp där run.sh, pom.xml osv ligger). Skriv in detta kommandot: `chmod +x run.sh` och tryck `ENTER` därefter kan du i samma fönster skriva `./run.sh`. Då kommer applikationen att köras.
 5. **Öppna frontend**  
    - Gå till `index.html`.
    - Fyll i sökfälten och klicka **"Search Flights"**.
